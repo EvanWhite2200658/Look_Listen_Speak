@@ -14,9 +14,7 @@ def main() -> None:
         print("Starting preview...")
         tracker.start_preview()
 
-        input("Press Enter after preview check to continue to calibration...")
-
-        print("Running calibration...")
+        print("Preview closed. Running calibration...")
         tracker.calibrate()
 
         for _ in range(100):

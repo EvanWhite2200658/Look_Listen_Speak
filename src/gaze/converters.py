@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Any, Optional, Tuple
-from .schemas import GazeSample
+from schemas import GazeSample
 
 
 def _safe_xy(value: Any) -> Optional[Tuple[float, float]]:
