@@ -24,6 +24,7 @@ from features import FeatureConfig, gaze_window_to_sequence
 from interface import TurnPredictionModel
 from model import TransformerConfig, TurnShiftTransformer
 from schemas import GazeWindow, TurnPrediction
+from train import TrainingConfig, train_model
 
 __all__ = [
     "ALL_REQUIRED_PROCESSED_COLUMNS",
@@ -49,4 +50,6 @@ __all__ = [
     "TurnShiftTransformer",
     "GazeWindow",
     "TurnPrediction",
+    "TrainingConfig",
+    "train_model"
 ]
