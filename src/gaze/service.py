@@ -7,7 +7,7 @@ import time
 from typing import Optional
 
 from schemas import GazeSample
-from wrapper import GazeTrackerModule
+from .wrapper import GazeTrackerModule
 
 
 class GazeTrackingService:

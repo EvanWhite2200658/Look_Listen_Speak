@@ -8,7 +8,7 @@ from typing import Deque, List, Optional
 
 from gazefollower import GazeFollower
 
-from converters import gaze_info_to_sample
+from .converters import gaze_info_to_sample
 from schemas import GazeSample
 
 

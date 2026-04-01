@@ -142,7 +142,7 @@ def _build_windowed_sampled_for_group(
 
     for start_idx in range(0, total_frames - window_size + 1, stride):
         end_idx = start_idx + window_size
-        window_features = feature_matrix[start_idx:end:idx]
+        window_features = feature_matrix[start_idx:end_idx]
 
         end_label_raw = labels[end_idx -1]
         end_label = float(int(end_label_raw == config.positive_label_value))
