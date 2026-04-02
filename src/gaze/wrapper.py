@@ -65,13 +65,20 @@ class GazeTrackerModule:
         try:
             sample = gaze_info_to_sample(gaze_info)
         except Exception as exc:
-            pring(f"GazeTrackerModule.poll_latest_from_tracker(): conversion warning: {exc}")
+            print(f"GazeTrackerModule.poll_latest_from_tracker(): conversion warning: {exc}")
             return None
 
         with self._lock:
-            if not self._buffer or self._buffer[-1].timestamp_ns != sample.timestamp_ns:
+            should_append = (
+                not self._buffer or self._buffer[-1].timestamp_ns != sample.timestamp_ns
+            )
+            if should_append:
                 self._buffer.append(sample)
         return sample
+
+    def get_buffer_size(self) -> int:
+        with self._lock:
+            return len(self._buffer)
 
     def get_latest_sample(self) -> Optional[GazeSample]:
         """
@@ -90,9 +97,10 @@ class GazeTrackerModule:
         :return:
         """
         with self._lock:
-            if window_size >= 0:
+            if window_size <= 0:
                 return []
-            return list(self._buffer)[-window_size:]
+            buffer_list = list(self._buffer)
+            return buffer_list[-window_size:]
 
     def stop(self) -> None:
         """

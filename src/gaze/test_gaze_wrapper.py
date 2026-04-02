@@ -39,13 +39,15 @@ def main() -> None:
                     f"[{i}] t={sample.timestamp_s:.3f}s | "
                     f"raw={sample.raw_xy} | "
                     f"filtered={sample.filtered_xy} | "
-                    f"features={len(sample.features)}"
+                    f"features={len(sample.features)} | "
+                    f"buffer={sampling_tracker.get_buffer_size()}"
                 )
             time.sleep(0.05)
 
         window = sampling_tracker.get_recent_window(window_size=10)
         print(f"\nValid samples collected: {num_valid_samples}")
         print(f"Collected {len(window)} samples in recent window.")
+        print(f"Final buffer size: {sampling_tracker.get_buffer_size()}")
 
     finally:
         print("Stopping tracker...")
