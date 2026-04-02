@@ -8,32 +8,48 @@ from wrapper import GazeTrackerModule
 
 
 def main() -> None:
-    tracker = GazeTrackerModule(max_buffer_size=200)
+    calibration_tracker = GazeTrackerModule(max_buffer_size=200)
 
     try:
         print("Starting preview...")
-        tracker.start_preview()
+        calibration_tracker.start_preview()
 
         print("Preview closed. Running calibration...")
-        tracker.calibrate()
+        calibration_tracker.calibrate()
+    finally:
+        print("Stopping calibration tracker...")
+        calibration_tracker.stop()
 
-        for _ in range(100):
-            sample = tracker.poll_latest_from_tracker()
-            if sample is not None:
+    sampling_tracker = GazeTrackerModule(max_buffer_size=200)
+
+    try:
+        print("Beginning sampling...")
+        sampling_tracker.start_sampling()
+
+        num_valid_samples = 0
+
+        for i in range(100):
+            sample = sampling_tracker.poll_latest_from_tracker()
+
+            if sample is None:
+                print(f"[{i}] No sample returned")
+            else:
+                num_valid_samples += 1
                 print(
-                    f"t={sample.timestamp_s:.3f}s | "
+                    f"[{i}] t={sample.timestamp_s:.3f}s | "
                     f"raw={sample.raw_xy} | "
                     f"filtered={sample.filtered_xy} | "
                     f"features={len(sample.features)}"
                 )
             time.sleep(0.05)
 
-        window = tracker.get_recent_window(window_size=10)
-        print(f"\nCollected {len(window)} samples in recent window.")
+        window = sampling_tracker.get_recent_window(window_size=10)
+        print(f"\nValid samples collected: {num_valid_samples}")
+        print(f"Collected {len(window)} samples in recent window.")
 
     finally:
         print("Stopping tracker...")
-        tracker.stop()
+        sampling_tracker.stop()
 
 if __name__ == "__main__":
     main()

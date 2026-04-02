@@ -8,7 +8,7 @@ from typing import Deque, List, Optional
 
 from gazefollower import GazeFollower
 
-from .converters import gaze_info_to_sample
+from converters import gaze_info_to_sample
 from schemas import GazeSample
 
 
@@ -95,15 +95,18 @@ class GazeTrackerModule:
         stop sampling and release resources.
         :return:
         """
+        if not self._is_running:
+            return
+
         try:
-            self._tracker.stop_sampling()
-        except Exception:
-            pass
+            self._tracker.stop()
+        except Exception as exc:
+            print(f"GazeTrackerModule.stop(): stop_sampling warning: {exc}")
 
         try:
             self._tracker.release()
-        except Exception:
-            pass
+        except Exception as exc:
+            print(f"GazeTrackerModule.stop(): release warning: {exc}")
 
         self._is_running = False
 
