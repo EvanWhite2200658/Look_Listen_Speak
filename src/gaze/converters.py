@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from enum import Enum
 from typing import Any, Optional, Tuple
 from schemas import GazeSample
 
@@ -28,6 +29,53 @@ def _safe_xy(value: Any) -> Optional[Tuple[float, float]]:
 
     return None
 
+def _float_or_none(value: Any) -> Optional[float]:
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _safe_tracking_state(value: Any) -> Optional[int]:
+    """
+    COnvert tracking state into an integer if possible.
+    :param value:
+    :return:
+    """
+    if value is None:
+        return None
+
+    if isinstance(value, Enum):
+        try:
+            return int(value.value)
+        except (TypeError, ValueError):
+            return None
+
+    if hasattr(value, "value"):
+        try:
+            return int(value.value)
+        except (TypeError, ValueError):
+            pass
+
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _safe_status(value: Any) -> Optional[bool]:
+    if value is None:
+        return None
+
+    if isinstance(value, bool):
+        return value
+
+    try:
+        return bool(value)
+    except Exception:
+        return None
 
 def gaze_info_to_sample(gaze_info: Any) -> GazeSample:
     """
@@ -39,10 +87,10 @@ def gaze_info_to_sample(gaze_info: Any) -> GazeSample:
     calibrated_xy = _safe_xy(getattr(gaze_info, "calibrated_gaze_coordinates", None))
     filtered_xy = _safe_xy(getattr(gaze_info, "filtered_gaze_coordinates", None))
 
-    left_eye_openness = getattr(gaze_info, "left_openness", None)
-    right_eye_openness = getattr(gaze_info, "right_openness", None)
-    tracking_state = getattr(gaze_info, "tracking_state", None)
-    status = getattr(gaze_info, "status", None)
+    left_eye_openness = _float_or_none(getattr(gaze_info, "left_openness", None))
+    right_eye_openness = _float_or_none(getattr(gaze_info, "right_openness", None))
+    tracking_state = _safe_tracking_state(getattr(gaze_info, "tracking_state", None))
+    status = _safe_status(getattr(gaze_info, "status", None))
 
     raw_features = getattr(gaze_info, "features", None)
     if raw_features is None:
@@ -58,14 +106,10 @@ def gaze_info_to_sample(gaze_info: Any) -> GazeSample:
         raw_xy=raw_xy,
         calibrated_xy=calibrated_xy,
         filtered_xy=filtered_xy,
-        left_eye_openness=(
-            float(left_eye_openness) if left_eye_openness is not None else None
-        ),
-        right_eye_openness=(
-            float(right_eye_openness) if right_eye_openness is not None else None
-        ),
-        tracking_state=int(tracking_state) if tracking_state is not None else None,
-        status=bool(status) if status is not None else None,
+        left_eye_openness=left_eye_openness,
+        right_eye_openness=right_eye_openness,
+        tracking_state=tracking_state,
+        status=status,
         features=features,
     )
 

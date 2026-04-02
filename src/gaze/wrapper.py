@@ -62,7 +62,11 @@ class GazeTrackerModule:
         if gaze_info is None:
             return None
 
-        sample = gaze_info_to_sample(gaze_info)
+        try:
+            sample = gaze_info_to_sample(gaze_info)
+        except Exception as exc:
+            pring(f"GazeTrackerModule.poll_latest_from_tracker(): conversion warning: {exc}")
+            return None
 
         with self._lock:
             if not self._buffer or self._buffer[-1].timestamp_ns != sample.timestamp_ns:
