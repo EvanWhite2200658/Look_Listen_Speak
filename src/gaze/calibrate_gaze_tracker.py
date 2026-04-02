@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 from gazefollower import GazeFollower
+from patched_svr_calibration import PatchedSVRCalibration
 
 def main() -> None:
-    tracker = GazeFollower()
+    tracker = GazeFollower(calibration=PatchedSVRCalibration())
 
     try:
         print("Starting calibration...")

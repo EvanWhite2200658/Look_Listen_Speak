@@ -7,6 +7,7 @@ from collections import deque
 from typing import Deque, List, Optional
 
 from gazefollower import GazeFollower
+from patched_svr_calibration import PatchedSVRCalibration
 
 from converters import gaze_info_to_sample
 from schemas import GazeSample
@@ -21,7 +22,7 @@ class GazeTrackerModule:
     """
 
     def __init__(self, max_buffer_size: int = 150) -> None:
-        self._tracker = GazeFollower()
+        self._tracker = GazeFollower(calibration=PatchedSVRCalibration())
         self._buffer: Deque[GazeSample] = deque(maxlen=max_buffer_size)
         self._lock = threading.Lock()
         self._is_running = False
@@ -118,7 +119,7 @@ class GazeTrackerModule:
             return
 
         try:
-            self._tracker.stop()
+            self._tracker.stop_sampling()
         except Exception as exc:
             print(f"GazeTrackerModule.stop(): stop_sampling warning: {exc}")
 
