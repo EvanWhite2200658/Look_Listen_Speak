@@ -7,7 +7,7 @@ import time
 from typing import Optional
 
 from schemas import GazeSample
-from .wrapper import GazeTrackerModule
+from wrapper import GazeTrackerModule
 
 
 class GazeTrackingService:
@@ -46,6 +46,13 @@ class GazeTrackingService:
         if self._run_calibration:
             self._tracker.calibrate()
 
+        if not self._tracker.has_calibration:
+            print(
+                "GazeTrackingService.start(): calibration not available. "
+                "Run calibration first or set run_calibration=True."
+            )
+            return
+
         self._tracker.start_sampling()
 
         self._stop_event.clear()
@@ -63,7 +70,13 @@ class GazeTrackingService:
         :return:
         """
         while not self._stop_event.is_set():
-            self._tracker.poll_latest_from_tracker()
+            try:
+                self._tracker.poll_latest_from_tracker()
+            except Exception as exc:
+                print(f"GazeTrackingService._run_loop(): stopping service loop: {exc}")
+                self._stop_event.set()
+                break
+
             time.sleep(self._poll_interval_s)
 
     def stop(self) -> None:

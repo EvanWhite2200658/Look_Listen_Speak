@@ -26,6 +26,7 @@ class GazeTrackerModule:
         self._lock = threading.Lock()
         self._is_running = False
 
+
     def start_preview(self) -> None:
         """
         Start preview for camera
@@ -40,6 +41,12 @@ class GazeTrackerModule:
         :return:
         """
         self._tracker.calibrate()
+        try:
+            saved = self._tracker.calibration.save_model()
+            if not saved:
+                print("GazeTrackerModule.calibrate(): calibration finished, but save_model() returned False")
+        except Exception as exc:
+            print(f"GazeTrakcerModule.calibrate(): save_model warning: {exc}")
 
     def start_sampling(self) -> None:
         """
@@ -85,7 +92,7 @@ class GazeTrackerModule:
         return the newest buffered sample.
         :return:
         """
-        with self._buffer:
+        with self._lock:
             if not self._buffer:
                 return None
             return self._buffer[-1]
@@ -125,3 +132,7 @@ class GazeTrackerModule:
     @property
     def is_running(self) -> bool:
         return self._is_running
+
+    @property
+    def has_calibration(self) -> bool:
+        return bool(self._tracker.calibration.has_calibrated)

@@ -18,6 +18,10 @@ def main() -> None:
         print("Starting GazeTrackingService")
         service.start(preview=False)
 
+        if not service.is_running:
+            print("Service did not start. Calibration is required for live sampling.")
+            return
+
         for _ in range(40):
             sample = service.get_latest_sample()
             if sample is not None:
@@ -32,7 +36,7 @@ def main() -> None:
             time.sleep(0.25)
 
         window = service.get_recent_window(20)
-        print("f\nRecent window size: {len(window)}")
+        print(f"\nRecent window size: {len(window)}")
 
     finally:
         print("Closing GazeTrackingService")
