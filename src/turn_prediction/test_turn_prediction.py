@@ -1,5 +1,5 @@
 # src/turn_prediction/test_turn_prediction.py
-# TODO: verify output
+
 from __future__ import annotations
 
 import time

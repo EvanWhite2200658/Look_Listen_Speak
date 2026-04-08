@@ -1,5 +1,5 @@
 # src/turn_prediction/test_model.py
-# TODO: verify output
+
 from __future__ import annotations
 
 import torch

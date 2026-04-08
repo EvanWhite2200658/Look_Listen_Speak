@@ -1,5 +1,5 @@
 # src/turn_prediction/test_dataset.py
-# TODO: validate output
+
 from __future__ import annotations
 
 from pathlib import Path
