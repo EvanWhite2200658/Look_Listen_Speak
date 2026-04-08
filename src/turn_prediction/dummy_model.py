@@ -20,7 +20,7 @@ class DummyTurnModel(TurnPredictionModel):
 
         latest = window.samples[-1]
 
-        return TurnPrediciton(
+        return TurnPrediction(
             timestamp_ns=latest.timestamp_ns,
             probability=random.random()
         )

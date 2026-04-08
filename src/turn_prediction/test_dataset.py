@@ -1,5 +1,5 @@
 # src/turn_prediction/test_dataset.py
-
+# TODO: validate output
 from __future__ import annotations
 
 from pathlib import Path
@@ -13,7 +13,8 @@ from dataset import (
 )
 
 def main() -> None:
-    csv_path = Path("data/processed/example_turn_data.csv") # TODO: put correct path
+    root_path = Path(__file__).resolve().parents[2]
+    csv_path = root_path / "data" / "processed" / "data_UBImpressed_001MD_Client_preprocessed.csv"
 
     config = DatasetConfig(
         feature_columns=GAZE_TRANSFORMER_FEATURE_COLUMNS,

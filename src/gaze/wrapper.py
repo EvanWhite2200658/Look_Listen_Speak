@@ -7,10 +7,10 @@ from collections import deque
 from typing import Deque, List, Optional
 
 from gazefollower import GazeFollower
-from patched_svr_calibration import PatchedSVRCalibration
+from .patched_svr_calibration import PatchedSVRCalibration
 
-from converters import gaze_info_to_sample
-from schemas import GazeSample
+from .converters import gaze_info_to_sample
+from .schemas import GazeSample
 
 
 class GazeTrackerModule:

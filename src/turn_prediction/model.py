@@ -107,7 +107,7 @@ class TurnShiftTransformer(nn.Module):
             norm_first=True,
         )
 
-        self.encoder = nn.TransformerEncoder(
+        self.encoder = nn.TransformerEncoder( # TODO: investigate UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True self.encoder = nn.TransformerEncoder(
             encoder_layer=encoder_layer,
             num_layers=config.num_layers,
         )

@@ -62,7 +62,7 @@ def sample_to_feature_vector(
 
     if config.include_raw_xy:
         raw_xy, raw_xy = _xy_or_default(sample.raw_xy)
-        features.extend([raw_x, raw_y])
+        features.extend([raw_xy, raw_xy])
 
     if config.include_calibrated_xy:
         cal_x, cal_y = _xy_or_default(sample.calibrated_xy)
