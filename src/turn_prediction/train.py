@@ -61,38 +61,66 @@ def collect_csv_paths(input_path: str) -> list[str]:
 
     raise ValueError(f"Invalid path: {input_path}")
 
-def split_dataset(
+def split_dataset_by_sequence(
         dataset: TurnPredictionDataset,
         validation_split: float,
         seed: int,
 ) -> tuple[Subset, Subset]:
     """
-    Random train/validation split.
+    Sequence-aware train/validation split.
+    ensures entire sequences (ids) are kept together
     :param dataset:
     :param validation_split:
     :param seed:
     :return:
     """
-    dataset_size = len(dataset)
-    indices = list(range(dataset_size))
-    rng = random.Random(seed)
-    rng.shuffle(indices)
 
-    val_size = int(dataset_size * validation_split)
-    val_indices = indices[:val_size]
-    train_indices = indices[val_size:]
+    # map sequence_id -> list of sample indices
+    seq_to_indices: dict[str, list[int]] = {}
+
+    for idx, sample in enumerate(dataset._samples):
+        seq_id = sample.sequence_id
+        if seq_id not in seq_to_indices:
+            seq_to_indices[seq_id] = []
+        seq_to_indices[seq_id].append(idx)
+
+    # shuffle sequence ids
+    sequence_ids = list(seq_to_indices.keys())
+    rng = random.Random(seed)
+    rng.shuffle(sequence_ids)
+
+    # split by sequence IDs
+    val_size = int(len(sequence_ids) * validation_split)
+    val_seq_ids = set(sequence_ids[:val_size])
+    train_seq_ids = set(sequence_ids[val_size:])
+
+    # collect indices
+    train_indices = []
+    val_indices = []
+
+    for seq_id, indices in seq_to_indices.items():
+        if seq_id in val_seq_ids:
+            val_indices.extend(indices)
+        else:
+            train_indices.extend(indices)
 
     train_subset = Subset(dataset, train_indices)
     val_subset = Subset(dataset, val_indices)
 
-    return train_subset, val_subset
+    print("\nSequence-aware split:")
+    print(f"Total sequences: {len(sequence_ids)}")
+    print(f"Train sequences: {len(train_seq_ids)}")
+    print(f"Validation sequences: {len(val_seq_ids)}")
+    print(f"Train samples: {len(train_indices)}")
+    print(f"Validation samples: {len(val_indices)}")
 
+    return train_subset, val_subset
 
 def build_dataloaders(
         dataset: TurnPredictionDataset,
         config: TrainingConfig,
 ) -> tuple[DataLoader, DataLoader]:
-    train_subset, val_subset = split_dataset(
+    train_subset, val_subset = split_dataset_by_sequence(
         dataset=dataset,
         validation_split=config.validation_split,
         seed=config.random_seed,
@@ -441,7 +469,11 @@ def train_model(training_config: TrainingConfig) -> Path:
             "val_precision": val_prec,
             "val_recall": val_rec,
             "val_f1": val_f1,
-
+            "best_threshold": best_threshold_result["threshold"],
+            "best_threshold_precision": best_threshold_result["precision"],
+            "best_threshold_recall": best_threshold_result["recall"],
+            "best_threshold_f1": best_threshold_result["f1"],
+            "best_threshold_predicted_positives": best_threshold_result["predicted_positives"],
         })
 
         if best_threshold_result["f1"] > best_val_f1:
@@ -486,7 +518,7 @@ def main() -> None:
         validation_split=0.2,
         random_seed=42,
         num_workers=0,
-        positive_class_weight=15.0,
+        positive_class_weight=10.0,
     )
 
     checkpoint_path = train_model(config)
