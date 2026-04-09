@@ -1,0 +1,32 @@
+{
+  "epoch": 20,
+  "val_loss": 0.010845456212893232,
+  "best_threshold": 0.2,
+  "best_val_f1": 0.2911825017088175,
+  "model_config": {
+    "input_dim": 30,
+    "max_seq_len": 30,
+    "d_model": 64,
+    "nhead": 4,
+    "num_layers": 2,
+    "dim_feedforward": 128,
+    "dropout": 0.1,
+    "use_learned_positional_encoding": true
+  },
+  "training_config": {
+    "data_path": "C:\\Users\\aweso\\PycharmProjects\\Look_Listen_Speak\\data\\processed",
+    "output_dir": "artifacts/turn_prediction",
+    "feature_set": "rich",
+    "window_size": 30,
+    "stride": 5,
+    "batch_size": 64,
+    "num_epochs": 20,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "validation_split": 0.2,
+    "random_seed": 42,
+    "num_workers": 0,
+    "positive_class_weight": 10.0,
+    "device": "cpu"
+  }
+}

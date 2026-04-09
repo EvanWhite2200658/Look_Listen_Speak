@@ -566,7 +566,7 @@ def main() -> None:
         validation_split=0.2,
         random_seed=42,
         num_workers=0,
-        positive_class_weight=15.0,
+        positive_class_weight=10.0,
     )
 
     checkpoint_path = train_model(config)
