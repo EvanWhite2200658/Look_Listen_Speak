@@ -15,7 +15,11 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, Subset
 from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 
-from columns import GAZE_TRANSFORMER_FEATURE_COLUMNS, MAIN_TARGET_COLUMN
+from columns import (
+    GAZE_TRANSFORMER_FEATURE_COLUMNS,
+    RICH_TURN_PREDICTION_FEATURE_COLUMNS,
+    MAIN_TARGET_COLUMN,
+)
 from dataset import DatasetConfig, TurnPredictionDataset, build_dataset_from_multiple_csvs
 from model import TransformerConfig, TurnShiftTransformer
 
@@ -65,6 +69,7 @@ class TrainingConfig:
 
     data_path: str
     output_dir: str = "artifacts/turn_prediction"
+    feature_set: str = "base" # "base" or "rich"
     window_size: int = 30
     stride: int = 5
     batch_size: int = 64
@@ -372,6 +377,13 @@ def save_checkpoint(
 
     return checkpoint_path
 
+def get_feature_columns(feature_set: str) -> list[str]:
+    if feature_set == "base":
+        return list(GAZE_TRANSFORMER_FEATURE_COLUMNS)
+    if feature_set == "rich":
+        return list(RICH_TURN_PREDICTION_FEATURE_COLUMNS)
+
+    raise ValueError(f"Unknown feature_set: {feature_set}")
 
 def train_model(training_config: TrainingConfig) -> Path:
     """
@@ -386,8 +398,9 @@ def train_model(training_config: TrainingConfig) -> Path:
     """
     set_seed(training_config.random_seed)
 
+    feature_columns = get_feature_columns(training_config.feature_set)
     dataset_config = DatasetConfig(
-        feature_columns=GAZE_TRANSFORMER_FEATURE_COLUMNS,
+        feature_columns=feature_columns,
         label_column=MAIN_TARGET_COLUMN,
         window_size=training_config.window_size,
         stride=training_config.stride,
@@ -414,7 +427,7 @@ def train_model(training_config: TrainingConfig) -> Path:
 
     train_loader, val_loader = build_dataloaders(dataset, training_config)
 
-    input_dim = len(GAZE_TRANSFORMER_FEATURE_COLUMNS)
+    input_dim = len(feature_columns)
     model_config = TransformerConfig(
         input_dim=input_dim,
         max_seq_len=training_config.window_size,
@@ -450,7 +463,9 @@ def train_model(training_config: TrainingConfig) -> Path:
     print(f"Dataset size: {len(dataset)}")
     print(f"Train batches: {len(train_loader)}")
     print(f"Validation batches: {len(val_loader)}")
+    print(f"Feature set: {training_config.feature_set}")
     print(f"Input dim: {input_dim}")
+    print(f"Feature columns: {feature_columns}")
 
     history = []
 
@@ -541,6 +556,7 @@ def main() -> None:
     config= TrainingConfig(
         data_path=str(DATA_DIR),
         output_dir="artifacts/turn_prediction",
+        feature_set="rich",
         window_size=30,
         stride=5,
         batch_size=64,
@@ -550,7 +566,7 @@ def main() -> None:
         validation_split=0.2,
         random_seed=42,
         num_workers=0,
-        positive_class_weight=None,
+        positive_class_weight=15.0,
     )
 
     checkpoint_path = train_model(config)

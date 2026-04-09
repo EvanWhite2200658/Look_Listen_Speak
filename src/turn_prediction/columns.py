@@ -32,6 +32,7 @@ DELTA_GAZE_FEATURE_COLUMNS = [
     "delta_headpose.yaw",
 ]
 
+# current 24 feature set
 GAZE_TRANSFORMER_FEATURE_COLUMNS = (
     *CORE_GAZE_FEATURE_COLUMNS,
     *DELTA_GAZE_FEATURE_COLUMNS,
@@ -49,17 +50,25 @@ REFERENCE_LABEL_COLUMNS = [
 
 MAIN_TARGET_COLUMN = "turn_shift_in_next_15_frames"
 
-ALL_REQUIRED_PROCESSED_COLUMNS = [
-    "id",
-    "frameIndex",
-    *GAZE_TRANSFORMER_FEATURE_COLUMNS,
-    *OPTIONAL_CONTEXT_COLUMNS,
-    "action",
-    "vfoa_GT",
-    "target0.name",
+# richer feature set candidate
+RICH_TURN_PREDICTION_FEATURE_COLUMNS = [
+    *CORE_GAZE_FEATURE_COLUMNS,
+    *DELTA_GAZE_FEATURE_COLUMNS,
+    "speaking",
+    "target0.speaking",
+    "speech_state",
+    "turn_shift",
     "target0.x",
     "target0.y",
     "target0.z",
-    *REFERENCE_LABEL_COLUMNS,
+]
+
+ALL_REQUIRED_PROCESSED_COLUMNS = [
+    "id",
+    "frameIndex",
+    *RICH_TURN_PREDICTION_FEATURE_COLUMNS,
+    "action",
+    "vfoa_GT",
+    "target0.name",
     MAIN_TARGET_COLUMN,
 ]
