@@ -56,7 +56,6 @@ RICH_TURN_PREDICTION_FEATURE_COLUMNS = [
     *DELTA_GAZE_FEATURE_COLUMNS,
     "speaking",
     "target0.speaking",
-    "speech_state",
     "turn_shift",
     "target0.x",
     "target0.y",
