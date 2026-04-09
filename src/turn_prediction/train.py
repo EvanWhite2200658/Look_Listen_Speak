@@ -19,6 +19,43 @@ from columns import GAZE_TRANSFORMER_FEATURE_COLUMNS, MAIN_TARGET_COLUMN
 from dataset import DatasetConfig, TurnPredictionDataset, build_dataset_from_multiple_csvs
 from model import TransformerConfig, TurnShiftTransformer
 
+class FocalLoss(nn.Module):
+    """
+    Binary Focal Loss for imbalanced classification.
+    Expects raw logits as input.
+    """
+
+    def __init__(self, alpha: float = 0.25, gamma: float = 2.0):
+        super().__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+
+    def forward(self, logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        targets = targets.float()
+        probs = torch.sigmoid(logits)
+        # standard BCE loss (per-sample)
+        bce_loss = nn.functional.binary_cross_entropy_with_logits(
+            logits,
+            targets,
+            reduction="none",
+        )
+
+        # p_t: model confidence for the correct class
+        p_t = torch.where(targets == 1, probs, 1.0 - probs)
+
+        # focal scaling
+        focal_weight = (1.0 - p_t) ** self.gamma
+
+        # alpha weighting (optional class balance)
+        alpha_t = torch.where(
+            targets == 1,
+            torch.full_like(targets, self.alpha),
+            torch.full_like(targets, 1.0 - self.alpha),
+        )
+
+        loss = alpha_t * focal_weight * bce_loss
+
+        return loss.mean()
 
 @dataclass(frozen=True)
 class TrainingConfig:
@@ -392,15 +429,10 @@ def train_model(training_config: TrainingConfig) -> Path:
     device = torch.device(training_config.device)
     model = TurnShiftTransformer(model_config).to(device)
 
-    if training_config.positive_class_weight is not None:
-        pos_weight = torch.tensor(
-            [training_config.positive_class_weight],
-            dtype=torch.float32,
-            device=device,
-        )
-        criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
-    else:
-        criterion = nn.BCEWithLogitsLoss()
+    criterion = FocalLoss(
+        alpha=0.25,
+        gamma=2.0,
+    )
 
     optimizer = AdamW(
         model.parameters(),
@@ -518,7 +550,7 @@ def main() -> None:
         validation_split=0.2,
         random_seed=42,
         num_workers=0,
-        positive_class_weight=10.0,
+        positive_class_weight=None,
     )
 
     checkpoint_path = train_model(config)
