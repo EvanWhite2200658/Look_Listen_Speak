@@ -8,6 +8,7 @@ import torch
 
 from .model import TurnShiftTransformer, TransformerConfig
 from .schemas import GazeWindow, TurnPrediction
+from live_feature_contract import build_live_feature_contract_report
 
 
 class TrainedTurnModel:
@@ -83,6 +84,7 @@ class TrainedTurnModel:
             )
 
         latest_timestamp = window.samples[-1].timestamp_ns
+        report = build_live_feature_contract_report()
 
         raise NotImplementedError(
             "This checkpoint was trained in dataset feature space, but the live "
@@ -90,6 +92,5 @@ class TrainedTurnModel:
             f"Checkpoint expects input_dim={self.expected_input_dim}, "
             f"window_size={self.expected_window_size}, "
             f"feature_set={self.training_feature_set}. "
-            "Implement a dataset-aligned live feature mapper before enabling "
-            "real-time inference."
+            f"unsupported_required_features={report.unsupported_feature_names}."
         )
