@@ -26,3 +26,4 @@ class TurnPrediction:
     """
     timestamp_ns: int
     probability: float # probability of turn transition (0-1)
+    is_turn: bool # thresholded decision for live system
