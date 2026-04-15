@@ -9,9 +9,9 @@ from typing import Deque, List, Optional
 from gazefollower import GazeFollower
 from sympy.stats.rv import sample_iter_lambdify
 
-from patched_svr_calibration import PatchedSVRCalibration
-from converters import face_gaze_to_sample, gaze_info_to_sample
-from schemas import GazeSample
+from .patched_svr_calibration import PatchedSVRCalibration
+from .converters import face_gaze_to_sample, gaze_info_to_sample
+from .schemas import GazeSample
 
 
 class GazeTrackerModule:

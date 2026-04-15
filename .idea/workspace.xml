@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles">
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_features.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_live_features.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gaze/converters.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/converters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/schemas.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/test_gaze_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/test_gaze_wrapper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gaze/wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/wrapper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +46,7 @@
     "Python.test_gaze_wrapper.executor": "Run",
     "Python.test_gazefollower_probe.executor": "Run",
     "Python.test_live_feature_contract.executor": "Run",
+    "Python.test_live_features.executor": "Run",
     "Python.test_turn_prediction.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -125,7 +125,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776194843622</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles">
+      <option name="closed" value="true" />
+      <created>1776214405178</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1776214405178</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -146,7 +154,8 @@
     <MESSAGE value="add turn-transition prediction model foundation&#10;&#10;- define GazeWindow and TurnPrediction schemas&#10;- create abstract TurnPredictionModel interface&#10;- implement DummyTurnModel for pipeline testing&#10;- added test script integrating gaze service with prediction module" />
     <MESSAGE value="add gaze feature extraction pipeline for turn prediction&#10;&#10;- added configurable feature extraction from GazeSample to per-frame vector&#10;- implemented GazeWindow to sequence conversion for model input&#10;- added optional first-order delta features for temporal dynamics&#10;- added feature extraction test script using live gaze service&#10;- added turn_prediction package exports" />
     <MESSAGE value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
-    <option name="LAST_COMMIT_MESSAGE" value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
+    <MESSAGE value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
+    <option name="LAST_COMMIT_MESSAGE" value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -5,7 +5,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Any, Optional, Tuple
 
-from schemas import FaceSample, GazeSample
+from .schemas import FaceSample, GazeSample
 
 
 def _safe_xy(value: Any) -> Optional[Tuple[float, float]]:
