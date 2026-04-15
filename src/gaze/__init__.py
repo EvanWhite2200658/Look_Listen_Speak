@@ -1,10 +1,11 @@
 # src/gaze/__init__.py
-# TODO: fix import issue
-from .schemas import GazeSample
+
+from .schemas import FaceSample, GazeSample
 from .service import GazeTrackingService
 from .wrapper import GazeTrackerModule
 
 __all__ = [
+    "FaceSample",
     "GazeSample",
     "GazeTrackerModule",
     "GazeTrackingService",

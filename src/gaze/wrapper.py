@@ -7,10 +7,11 @@ from collections import deque
 from typing import Deque, List, Optional
 
 from gazefollower import GazeFollower
-from .patched_svr_calibration import PatchedSVRCalibration
+from sympy.stats.rv import sample_iter_lambdify
 
-from .converters import gaze_info_to_sample
-from .schemas import GazeSample
+from patched_svr_calibration import PatchedSVRCalibration
+from converters import face_gaze_to_sample, gaze_info_to_sample
+from schemas import GazeSample
 
 
 class GazeTrackerModule:
@@ -26,6 +27,7 @@ class GazeTrackerModule:
         self._buffer: Deque[GazeSample] = deque(maxlen=max_buffer_size)
         self._lock = threading.Lock()
         self._is_running = False
+        self._subscriber_registered = False
 
 
     def start_preview(self) -> None:
@@ -49,6 +51,44 @@ class GazeTrackerModule:
         except Exception as exc:
             print(f"GazeTrakcerModule.calibrate(): save_model warning: {exc}")
 
+    def _handle_face_gaze_info(self, face_info, gaze_info, *args, **kwargs) -> None:
+        try:
+            sample = face_gaze_to_sample(face_info=face_info, gaze_info=gaze_info)
+        except Exception as exc:
+            print(f"GazeTrackerModule._handle_face_gaze_info(): conversion warning: {exc}")
+            return
+
+        if sample is None:
+            return
+
+        with self._lock:
+            should_append = (
+                not self._buffer or self._buffer[-1].timestamp_ns != sample.timestamp_ns
+            )
+            if should_append:
+                self._buffer.append(sample)
+
+    def _register_subscriber(self) -> None:
+        if self._subscriber_registered:
+            return
+
+        try:
+            self._tracker.add_subscriber(self._handle_face_gaze_info)
+            self._subscriber_registered = True
+        except Exception as exc:
+            print(f"GazeTrackerModule._register_subscriber(): warning: {exc}")
+
+    def _remove_subscriber(self) -> None:
+        if not self._subscriber_registered:
+            return
+
+        try:
+            self._tracker.remove_subscriber(self._handle_face_gaze_info)
+        except Exception as exc:
+            print(f"GazeTrackerModule._remove_subscriber(): warning: {exc}")
+        finally:
+            self._subscriber_registered = False
+
     def start_sampling(self) -> None:
         """
         start sampling and collecting gaze samples into the project buffer.
@@ -58,14 +98,22 @@ class GazeTrackerModule:
             return
 
         self._tracker.start_sampling()
+        self._register_subscriber()
         self._is_running = True
 
     def poll_latest_from_tracker(self) -> Optional[GazeSample]:
         """
-        Pull the latest gaze information from GazeFollower and store it in the buffer
-        kept simple for initial integration, can be replaced with event-driven design if needed.
+        Return the most recent buffered sample.
+
+        The primary collection path is subscriber-driven so that face_info
+        and gaze_info are preserved. This method remains for backwards
+        compatibility with the service polling loop.
         :return:
         """
+        latest = self.get_latest_sample()
+        if latest is not None:
+            return latest
+
         gaze_info = self._tracker.get_gaze_info()
         if gaze_info is None:
             return None
@@ -74,6 +122,9 @@ class GazeTrackerModule:
             sample = gaze_info_to_sample(gaze_info)
         except Exception as exc:
             print(f"GazeTrackerModule.poll_latest_from_tracker(): conversion warning: {exc}")
+            return None
+
+        if sample is None:
             return None
 
         with self._lock:

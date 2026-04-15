@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_feature_contract.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_live_feature_contract.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gaze/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gaze/converters.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/converters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gaze/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gaze/test_gaze_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/test_gaze_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gaze/wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/wrapper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +50,7 @@
     "Python.test_turn_prediction.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "live__pipeline",
+    "git-widget-placeholder": "gaze",
     "ignore.virus.scanning.warn.message": "true"
   }
 }]]></component>
@@ -145,5 +147,16 @@
     <MESSAGE value="add gaze feature extraction pipeline for turn prediction&#10;&#10;- added configurable feature extraction from GazeSample to per-frame vector&#10;- implemented GazeWindow to sequence conversion for model input&#10;- added optional first-order delta features for temporal dynamics&#10;- added feature extraction test script using live gaze service&#10;- added turn_prediction package exports" />
     <MESSAGE value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
     <option name="LAST_COMMIT_MESSAGE" value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/gaze/schemas.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
