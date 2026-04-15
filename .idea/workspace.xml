@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_features.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_live_features.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_inference_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_model_config.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_live_model_contract.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/train_live_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/converters.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/converters.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/wrapper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,10 +48,11 @@
     "Python.test_gazefollower_probe.executor": "Run",
     "Python.test_live_feature_contract.executor": "Run",
     "Python.test_live_features.executor": "Run",
+    "Python.test_live_model_contract.executor": "Run",
     "Python.test_turn_prediction.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "gaze",
+    "git-widget-placeholder": "training",
     "ignore.virus.scanning.warn.message": "true"
   }
 }]]></component>
