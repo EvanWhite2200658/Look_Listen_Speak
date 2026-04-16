@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_inference_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/live_model_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_live_model_contract.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/train_live_model.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models">
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/overlap_features.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_overlap_features.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,6 +46,7 @@
     "Python.test_live_feature_contract.executor": "Run",
     "Python.test_live_features.executor": "Run",
     "Python.test_live_model_contract.executor": "Run",
+    "Python.test_overlap_features.executor": "Run",
     "Python.test_turn_prediction.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -135,7 +133,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776214405178</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models">
+      <option name="closed" value="true" />
+      <created>1776296480966</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1776296480966</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -157,7 +163,8 @@
     <MESSAGE value="add gaze feature extraction pipeline for turn prediction&#10;&#10;- added configurable feature extraction from GazeSample to per-frame vector&#10;- implemented GazeWindow to sequence conversion for model input&#10;- added optional first-order delta features for temporal dynamics&#10;- added feature extraction test script using live gaze service&#10;- added turn_prediction package exports" />
     <MESSAGE value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
     <MESSAGE value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
-    <option name="LAST_COMMIT_MESSAGE" value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
+    <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
