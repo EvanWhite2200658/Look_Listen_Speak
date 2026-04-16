@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/overlap_features.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_overlap_features.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset">
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/overlap_columns.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/overlap_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_overlap_training_contract.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +48,7 @@
     "Python.test_live_features.executor": "Run",
     "Python.test_live_model_contract.executor": "Run",
     "Python.test_overlap_features.executor": "Run",
+    "Python.test_overlap_training_contract.executor": "Run",
     "Python.test_turn_prediction.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -141,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776296480966</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset">
+      <option name="closed" value="true" />
+      <created>1776375992635</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1776375992635</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -164,7 +174,8 @@
     <MESSAGE value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
     <MESSAGE value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
     <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
+    <MESSAGE value="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
