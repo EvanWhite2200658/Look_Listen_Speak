@@ -63,6 +63,28 @@ def _xy_or_default(value: Optional[tuple[float, float]]) -> tuple[float, float]:
 def _best_gaze_xy(sample: GazeSample) -> tuple[float, float]:
     return _xy_or_default(sample.filtered_xy or sample.calibrated_xy or sample.filtered_xy)
 
+def _best_eye_xy(sample: GazeSample) -> tuple[float, float]:
+    """
+    Replace this hook with the project's actual live eye-position estimate.
+
+    -direct eye coordinates from GazeFollower, if exposed
+    -derived eye position from FaceMesh eye-region geometry
+    :param sample:
+    :return:
+    """
+    # TODO: replace this placeholder
+    if sample.face is not None:
+        if sample.face.left_rect is not None and sample.face.right_rect is not None:
+            lx, ly, lw, lh = sample.face.left_rect
+            rx, ry, rw, rh = sample.face.right_rect
+            left_cx = float(lx + (lw / 2.0))
+            left_cy = float(ly + (lh / 2.0))
+            right_cx = float(rx + (rw / 2.0))
+            right_cy = float(ry + (rh / 2.0))
+            return (left_cx + right_cx) / 2.0, (left_cy + right_cy) / 2.0
+
+    return 0.0, 0.0
+
 def _face_center_xy(sample: GazeSample) -> tuple[float, float]:
     if sample.face is None or sample.face.face_rect is None:
         return 0.0, 0.0
@@ -76,11 +98,12 @@ def _estimate_head_pose_from_landmarks(sample: GazeSample) -> tuple[float, float
     :param sample:
     :return:
     """
+    # TODO: replace this placeholder
     return 0.0, 0.0, 0.0
 
 def sample_to_dataset_base_features(sample: GazeSample) -> np.ndarray:
     gaze_x, gaze_y = _best_gaze_xy(sample)
-    eye_x, eye_y = gaze_x, gaze_y # TODO: make these standalone and not derived
+    eye_x, eye_y = _best_eye_xy(sample)
     head_x, head_y = _face_center_xy(sample)
 
     # unavailable live
