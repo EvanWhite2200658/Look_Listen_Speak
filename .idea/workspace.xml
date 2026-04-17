@@ -5,15 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/overlap_inference_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_overlap_inference.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/train_overlap_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_feature_bridge.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/test_gazefollower_probe.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/test_gazefollower_probe.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/wrapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/overlap_columns.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/overlap_columns.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/overlap_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/overlap_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/test_overlap_training_contract.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/test_overlap_training_contract.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +51,7 @@
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "training",
+    "git-widget-placeholder": "refactoring",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }

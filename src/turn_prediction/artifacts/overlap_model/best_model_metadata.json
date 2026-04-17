@@ -1,0 +1,33 @@
+{
+  "epoch": 2,
+  "val_loss": 0.05483149306094351,
+  "best_threshold": 0.2,
+  "best_val_f1": 0.0672544080604534,
+  "model_config": {
+    "input_dim": 24,
+    "max_seq_len": 30,
+    "d_model": 64,
+    "nhead": 4,
+    "num_layers": 2,
+    "dim_feedforward": 128,
+    "dropout": 0.1,
+    "use_learned_positional_encoding": true
+  },
+  "training_config": {
+    "data_path": "C:\\Users\\aweso\\PycharmProjects\\Look_Listen_Speak\\data\\processed",
+    "output_dir": "C:\\Users\\aweso\\PycharmProjects\\Look_Listen_Speak\\src\\turn_prediction\\artifacts\\overlap_model",
+    "window_size": 30,
+    "stride": 5,
+    "batch_size": 64,
+    "num_epochs": 20,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "validation_split": 0.2,
+    "random_seed": 42,
+    "positive_class_weight": null,
+    "device": "cpu"
+  },
+  "feature_space": "overlap_v1",
+  "feature_dim": 24,
+  "window_size": 30
+}
