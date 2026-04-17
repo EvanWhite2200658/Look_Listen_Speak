@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="added placeholder hook to calculate eye_x and eye_y in feature bridge">
-      <change afterPath="$PROJECT_DIR$/src/controller/timing_controller.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="Confidence-informed timing controller for system response delay">
+      <change afterPath="$PROJECT_DIR$/src/runtime/response_gate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controller/timing_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/timing_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/live_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/live_features.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +184,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776448373152</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Confidence-informed timing controller for system response delay">
+      <option name="closed" value="true" />
+      <created>1776448918450</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1776448918450</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -210,7 +220,8 @@
     <MESSAGE value="Runtime bridge from live gaze windows to strongest dataset feature space" />
     <MESSAGE value="Use strongest checkpoint with engineered live runtime sequence" />
     <MESSAGE value="added placeholder hook to calculate eye_x and eye_y in feature bridge" />
-    <option name="LAST_COMMIT_MESSAGE" value="added placeholder hook to calculate eye_x and eye_y in feature bridge" />
+    <MESSAGE value="Confidence-informed timing controller for system response delay" />
+    <option name="LAST_COMMIT_MESSAGE" value="Confidence-informed timing controller for system response delay" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

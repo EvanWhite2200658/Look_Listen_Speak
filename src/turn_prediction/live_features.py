@@ -105,6 +105,8 @@ def get_live_base_feature_names(config: LiveFeatureConfig) -> list[str]:
         ])
 
     if config.include_face_geometry:
+        face_center_x, face_center_y = _rect_center(face.face_rect)
+        
         names.extend([
             "face_center_x",
             "face_center_y",
