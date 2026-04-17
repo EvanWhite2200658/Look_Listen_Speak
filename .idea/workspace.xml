@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_feature_bridge.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="Runtime bridge from live gaze windows to strongest dataset feature space">
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +158,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776377645693</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Runtime bridge from live gaze windows to strongest dataset feature space">
+      <option name="closed" value="true" />
+      <created>1776446038510</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1776446038510</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -184,7 +191,8 @@
     <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
     <MESSAGE value="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset" />
     <MESSAGE value="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only" />
+    <MESSAGE value="Runtime bridge from live gaze windows to strongest dataset feature space" />
+    <option name="LAST_COMMIT_MESSAGE" value="Runtime bridge from live gaze windows to strongest dataset feature space" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -6,33 +6,32 @@ from typing import Any
 
 import torch
 
-from .model import TurnShiftTransformer, TransformerConfig
-from .schemas import GazeWindow, TurnPrediction
-from live_feature_contract import build_live_feature_contract_report
+from model import TurnShiftTransformer, TransformerConfig
+from runtime_feature_bridge import RuntimeBridgeConfig, gaze_window_to_strongest_runtime_sequence
+from schemas import GazeWindow, TurnPrediction
 
 
 class TrainedTurnModel:
     """
-    Strict live wrapper for a saved turn prediction checkpoint.
+    Runtime wrapper for the strongest dataset-trained checkpoint.
 
-    This class intentionally does NOT invent or approximate the feature
-    mapping required by the saved checkpoint. It only loads the checkpoint,
-    exposes its expectations, and refuses inference until the live pipeline
-    can provide the same feature space used during training.
+    The model remains trained in dataset feature space.
+    At runtime we engineer the closest possible matching feature sequence
+    from live gaze-wrapper signals and explicitly zero-fill unsupported fields.
     """
 
     def __init__(
-        self,
-        model_path: str,
-        threshold: float | None = None,
-        device: str = "cpu",
+            self,
+            model_path: str,
+            threshold: float | None = None,
+            device: str = "cpu",
     ) -> None:
         self.device = device
-
         checkpoint: dict[str, Any] = torch.load(model_path, map_location=device)
 
         self.model_config = TransformerConfig(**checkpoint["model_config"])
         self.training_config = checkpoint.get("training_config", {})
+        self.bridge_config = RuntimeBridgeConfig(include_context_placeholders=True)
 
         saved_threshold = checkpoint.get("best_threshold")
         self.threshold = float(
@@ -63,34 +62,45 @@ class TrainedTurnModel:
         return str(value) if value is not None else None
 
     def debug_summary(self) -> str:
-        return (
+        return(
             "TrainedTurnModel("
-            f"expected_input_dim={self.expected_input_dim}, "
-            f"expected_window_size={self.expected_window_size}, "
-            f"threshold={self.threshold}, "
-            f"training_feature_set={self.training_feature_set}, "
-            f"epoch={self.checkpoint_epoch}, "
-            f"best_val_f1={self.checkpoint_best_val_f1}, "
-            f"val_loss={self.checkpoint_val_loss}"
+            f"expected_input_dim: {self.expected_input_dim}, "
+            f"expected_window_size: {self.expected_window_size}, "
+            f"threshold: {self.threshold}, "
+            f"training_feature_set: {self.training_feature_set}, "
+            f"epoch: {self.checkpoint_epoch}, "
+            f"best_val_f1: {self.checkpoint_best_val_f1}, "
+            f"val_loss: {self.checkpoint_val_loss}, "
             ")"
         )
 
     def predict(self, window: GazeWindow) -> TurnPrediction:
         if not window.samples:
-            return TurnPrediction(
-                timestamp_ns=0,
-                probability=0.0,
-                is_turn=False,
-            )
+            return TurnPrediction(timestamp_ns=0, probability=0.0, is_turn=False)
 
         latest_timestamp = window.samples[-1].timestamp_ns
-        report = build_live_feature_contract_report()
+        sequence = gaze_window_to_strongest_runtime_sequence(window, self.bridge_config)
 
-        raise NotImplementedError(
-            "This checkpoint was trained in dataset feature space, but the live "
-            "pipeline does not yet provide the same per-frame features. "
-            f"Checkpoint expects input_dim={self.expected_input_dim}, "
-            f"window_size={self.expected_window_size}, "
-            f"feature_set={self.training_feature_set}. "
-            f"unsupported_required_features={report.unsupported_feature_names}."
+        if sequence.shape[0] != self.expected_window_size:
+            raise ValueError(
+                "Window length does not match checkpoint expectation. "
+                f"expected={self.expected_window_size}, actual={sequence.shape[0]}"
+            )
+
+        if sequence.shape[1] != self.expected_input_dim:
+            raise ValueError(
+                "Runtime feature dimension does not match checkpoint expectation. "
+                f"expected={self.expected_input_dim}, actual={sequence.shape[1]}"
+            )
+
+        x = torch.tensor(sequence, dtype=torch.float32).unsqueeze(0).to(self.device)
+
+        with torch.no_grad():
+            logits = self.model(x)
+            probability = float(torch.sigmoid(logits).item())
+
+        return TurnPrediction(
+            timestamp_ns=latest_timestamp,
+            probability=probability,
+            is_turn=(probability >= self.threshold),
         )
