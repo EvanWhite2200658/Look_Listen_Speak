@@ -12,4 +12,4 @@ DELTA_COLUMNS = [f"delta_{c}" for c in BASE_COLUMNS]
 
 ALL_COLUMNS = BASE_COLUMNS + DELTA_COLUMNS
 
-TARGET_COLUMN = "turn_shift"
+TARGET_COLUMN = "turn_shift_in_next_15_frames"

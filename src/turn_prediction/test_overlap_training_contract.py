@@ -17,6 +17,9 @@ def main():
     print(f"Samples: {meta.num_samples}")
     print(f"Seq len: {meta.seq_len}")
     print(f"Feature dim: {meta.feature_dim}")
+    print(f"Sequences: {meta.num_sequences}")
+    print(f"Positive labels: {meta.positive_count}")
+    print(f"Negative labels: {meta.negative_count}")
 
     x, y = dataset[0]
     print("Sample shape:", x.shape)

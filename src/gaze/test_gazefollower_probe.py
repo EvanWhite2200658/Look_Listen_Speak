@@ -1,4 +1,4 @@
-# src/gez/test_gazefollower_probe.py
+# src/gaze/test_gazefollower_probe.py
 
 from __future__ import annotations
 
