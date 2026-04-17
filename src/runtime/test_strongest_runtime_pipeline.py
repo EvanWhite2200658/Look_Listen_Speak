@@ -14,11 +14,13 @@ from src.runtime.timing_controller import ConfidenceTimingController
 class DummySileroVAD:
     def user_is_speaking(self) -> bool:
         return False
-
+    # TODO: fill this when installing Silero
 
 class DummyPiperTTS:
     def speak(self, text: str) -> None:
         print(f"[TTS] {text}")
+
+    # TODO: fill this when installing Piper
 
     def stop(self) -> None:
         print("[TTS STOP]")

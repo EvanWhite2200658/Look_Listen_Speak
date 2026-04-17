@@ -104,15 +104,6 @@ def get_live_base_feature_names(config: LiveFeatureConfig) -> list[str]:
             "right_eye_openness",
         ])
 
-    if config.include_face_geometry:
-        face_center_x, face_center_y = _rect_center(face.face_rect)
-        
-        names.extend([
-            "face_center_x",
-            "face_center_y",
-            "face_width",
-            "face_height",
-        ])
 
     if config.include_eye_geometry:
         names.extend([
@@ -176,11 +167,11 @@ def sample_to_live_base_feature_vector(
         ])
 
     if config.include_face_geometry:
-        face_center_x, face_center_x = _rect_center(face.face_rect)
+        face_center_x, face_center_y = _rect_center(face.face_rect)
         face_width, face_height = _rect_size(face.face_rect)
         features.extend([
             face_center_x,
-            face_center_x,
+            face_center_y,
             face_width,
             face_height,
         ])
