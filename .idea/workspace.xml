@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="Confidence-informed timing controller for system response delay">
-      <change afterPath="$PROJECT_DIR$/src/runtime/response_gate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/timing_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/timing_controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/live_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/live_features.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="Integrate Silero VAD override and Piper TTS response gate">
+      <change afterPath="$PROJECT_DIR$/src/runtime/test_strongest_runtime_pipeline.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776448918450</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Integrate Silero VAD override and Piper TTS response gate">
+      <option name="closed" value="true" />
+      <created>1776450416533</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1776450416533</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -221,7 +227,8 @@
     <MESSAGE value="Use strongest checkpoint with engineered live runtime sequence" />
     <MESSAGE value="added placeholder hook to calculate eye_x and eye_y in feature bridge" />
     <MESSAGE value="Confidence-informed timing controller for system response delay" />
-    <option name="LAST_COMMIT_MESSAGE" value="Confidence-informed timing controller for system response delay" />
+    <MESSAGE value="Integrate Silero VAD override and Piper TTS response gate" />
+    <option name="LAST_COMMIT_MESSAGE" value="Integrate Silero VAD override and Piper TTS response gate" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
