@@ -7,17 +7,13 @@ from typing import Any
 import torch
 
 from .model import TurnShiftTransformer, TransformerConfig
-from .runtime_feature_bridge import RuntimeBridgeConfig, gaze_window_to_strongest_runtime_sequence
+from .runtime_compatible_features import RuntimeCompatibleFeatureConfig, gaze_window_to_runtime_compatible_sequence
 from .schemas import GazeWindow, TurnPrediction
 
 
 class TrainedTurnModel:
     """
-    Runtime wrapper for the strongest dataset-trained checkpoint.
-
-    The model remains trained in dataset feature space.
-    At runtime we engineer the closest possible matching feature sequence
-    from live gaze-wrapper signals and explicitly zero-fill unsupported fields.
+    Deployment inference wrapper for the runtime-compatible model checkpoint
     """
 
     def __init__(
@@ -31,7 +27,8 @@ class TrainedTurnModel:
 
         self.model_config = TransformerConfig(**checkpoint["model_config"])
         self.training_config = checkpoint.get("training_config", {})
-        self.bridge_config = RuntimeBridgeConfig(include_context_placeholders=True)
+        self.feature_columns = checkpoint.get("feature_columns", [])
+        self.bridge_config = RuntimeCompatibleFeatureConfig(include_deltas=True)
 
         saved_threshold = checkpoint.get("best_threshold")
         self.threshold = float(
@@ -79,7 +76,7 @@ class TrainedTurnModel:
             return TurnPrediction(timestamp_ns=0, probability=0.0, is_turn=False)
 
         latest_timestamp = window.samples[-1].timestamp_ns
-        sequence = gaze_window_to_strongest_runtime_sequence(window, self.bridge_config)
+        sequence = gaze_window_to_runtime_compatible_sequence(window, self.bridge_config)
 
         if sequence.shape[0] != self.expected_window_size:
             raise ValueError(
