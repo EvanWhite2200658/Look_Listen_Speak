@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/runtime_feature_bridge.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_feature_bridge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -234,7 +235,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776601462411</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh">
+      <option name="closed" value="true" />
+      <created>1776604740565</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1776604740565</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -268,7 +277,8 @@
     <MESSAGE value="fixed typo in live_features.py where face_center_x was being passed twice instead of both x and y" />
     <MESSAGE value="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py" />
     <MESSAGE value="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint" />
+    <MESSAGE value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
+    <option name="LAST_COMMIT_MESSAGE" value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

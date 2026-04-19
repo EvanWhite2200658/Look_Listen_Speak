@@ -15,13 +15,13 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, Subset
 from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 
-from columns import (
+from .columns import (
     GAZE_TRANSFORMER_FEATURE_COLUMNS,
     RICH_TURN_PREDICTION_FEATURE_COLUMNS,
     MAIN_TARGET_COLUMN,
 )
-from dataset import DatasetConfig, TurnPredictionDataset, build_dataset_from_multiple_csvs
-from model import TransformerConfig, TurnShiftTransformer
+from .dataset import DatasetConfig, TurnPredictionDataset, build_dataset_from_multiple_csvs
+from .model import TransformerConfig, TurnShiftTransformer
 
 class FocalLoss(nn.Module):
     """
