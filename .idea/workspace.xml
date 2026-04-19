@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="added print logits for model debug when running">
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_compatible_features.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +242,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776604740565</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="added print logits for model debug when running">
+      <option name="closed" value="true" />
+      <created>1776614289001</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1776614289001</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -278,7 +285,8 @@
     <MESSAGE value="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py" />
     <MESSAGE value="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint" />
     <MESSAGE value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
-    <option name="LAST_COMMIT_MESSAGE" value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
+    <MESSAGE value="added print logits for model debug when running" />
+    <option name="LAST_COMMIT_MESSAGE" value="added print logits for model debug when running" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
