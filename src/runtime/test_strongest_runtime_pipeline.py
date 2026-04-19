@@ -31,7 +31,7 @@ def main() -> None:
         Path(__file__).resolve().parents[1]
         / "turn_prediction"
         / "artifacts"
-        / "turn_prediction"
+        / "turn_prediction_runtime_compatible"
         / "best_model.pt"
     )
 

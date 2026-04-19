@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="added print logits for model debug when running">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_compatible_features.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="load runtime-compatible checkpoint in deployment inference wrapper" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -250,7 +247,31 @@
       <option name="project" value="LOCAL" />
       <updated>1776614289001</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="replace weak overlap mapping with stronger runtime-compatible live feature bridge">
+      <option name="closed" value="true" />
+      <created>1776618332632</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1776618332632</updated>
+    </task>
+    <task id="LOCAL-00024" summary="add runtime-compatible training feature space for live deployment checkpoint">
+      <option name="closed" value="true" />
+      <created>1776618576113</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1776618576113</updated>
+    </task>
+    <task id="LOCAL-00025" summary="load runtime-compatible checkpoint in deployment inference wrapper">
+      <option name="closed" value="true" />
+      <created>1776618817433</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1776618817433</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -286,7 +307,10 @@
     <MESSAGE value="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint" />
     <MESSAGE value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
     <MESSAGE value="added print logits for model debug when running" />
-    <option name="LAST_COMMIT_MESSAGE" value="added print logits for model debug when running" />
+    <MESSAGE value="replace weak overlap mapping with stronger runtime-compatible live feature bridge" />
+    <MESSAGE value="add runtime-compatible training feature space for live deployment checkpoint" />
+    <MESSAGE value="load runtime-compatible checkpoint in deployment inference wrapper" />
+    <option name="LAST_COMMIT_MESSAGE" value="load runtime-compatible checkpoint in deployment inference wrapper" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
