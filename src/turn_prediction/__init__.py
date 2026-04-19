@@ -1,6 +1,6 @@
 # src/turn_prediction/__init__.py
 
-from columns import (
+from .columns import (
     ALL_REQUIRED_PROCESSED_COLUMNS,
     CORE_GAZE_FEATURE_COLUMNS,
     DELTA_GAZE_FEATURE_COLUMNS,
@@ -9,7 +9,7 @@ from columns import (
     OPTIONAL_CONTEXT_COLUMNS,
     REFERENCE_LABEL_COLUMNS,
 )
-from dataset import (
+from .dataset import (
     DatasetConfig,
     TurnPredictionDataset,
     WindowedSample,
@@ -19,12 +19,12 @@ from dataset import (
     load_turn_dataframe,
     stack_samples,
 )
-from dummy_model import DummyTurnModel
-from features import FeatureConfig, gaze_window_to_sequence
-from interface import TurnPredictionModel
-from model import TransformerConfig, TurnShiftTransformer
-from schemas import GazeWindow, TurnPrediction
-from train import TrainingConfig, train_model
+from .dummy_model import DummyTurnModel
+from .features import FeatureConfig, gaze_window_to_sequence
+from .interface import TurnPredictionModel
+from .model import TransformerConfig, TurnShiftTransformer
+from .schemas import GazeWindow, TurnPrediction
+from .train import TrainingConfig, train_model
 
 __all__ = [
     "ALL_REQUIRED_PROCESSED_COLUMNS",

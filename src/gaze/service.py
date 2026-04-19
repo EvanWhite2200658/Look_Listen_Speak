@@ -6,7 +6,7 @@ import threading
 import time
 from typing import Optional
 
-from schemas import GazeSample
+from .schemas import GazeSample
 from .wrapper import GazeTrackerModule
 
 

@@ -28,7 +28,7 @@ class DummyPiperTTS:
 
 def main() -> None:
     model_path = (
-        Path(__file__).resolve().parent
+        Path(__file__).resolve().parents[1]
         / "turn_prediction"
         / "artifacts"
         / "turn_prediction"

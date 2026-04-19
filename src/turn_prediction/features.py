@@ -8,7 +8,7 @@ from typing import List, Optional
 import numpy as np
 
 from src.gaze.schemas import GazeSample
-from schemas import GazeWindow
+from .schemas import GazeWindow
 
 @dataclass(frozen=True)
 class FeatureConfig:

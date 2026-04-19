@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import random
 
-from interface import TurnPredictionModel
-from schemas import GazeWindow, TurnPrediction
+from .interface import TurnPredictionModel
+from .schemas import GazeWindow, TurnPrediction
 
 
 class DummyTurnModel(TurnPredictionModel):

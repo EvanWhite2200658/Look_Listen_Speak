@@ -6,9 +6,9 @@ from typing import Any
 
 import torch
 
-from model import TurnShiftTransformer, TransformerConfig
-from runtime_feature_bridge import RuntimeBridgeConfig, gaze_window_to_strongest_runtime_sequence
-from schemas import GazeWindow, TurnPrediction
+from .model import TurnShiftTransformer, TransformerConfig
+from .runtime_feature_bridge import RuntimeBridgeConfig, gaze_window_to_strongest_runtime_sequence
+from .schemas import GazeWindow, TurnPrediction
 
 
 class TrainedTurnModel:
