@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="fixed typo in live_features.py where face_center_x was being passed twice instead of both x and y" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/artifacts/turn_prediction/best_model.pt" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/artifacts/turn_prediction/best_model.pt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/artifacts/turn_prediction/best_model_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/artifacts/turn_prediction/best_model_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/train.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,7 +49,10 @@
     "Python.test_live_model_contract.executor": "Run",
     "Python.test_overlap_features.executor": "Run",
     "Python.test_overlap_training_contract.executor": "Run",
+    "Python.test_strongest_runtime_pipeline.executor": "Run",
     "Python.test_turn_prediction.executor": "Run",
+    "Python.train.executor": "Run",
+    "Python.train_live_model.executor": "Run",
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -212,7 +220,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776451793625</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py">
+      <option name="closed" value="true" />
+      <created>1776597788276</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1776597788276</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,7 +260,8 @@
     <MESSAGE value="Integrate Silero VAD override and Piper TTS response gate" />
     <MESSAGE value="End-to-end strongest-model runtime harness with timing and VAD gate" />
     <MESSAGE value="fixed typo in live_features.py where face_center_x was being passed twice instead of both x and y" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed typo in live_features.py where face_center_x was being passed twice instead of both x and y" />
+    <MESSAGE value="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -253,6 +270,26 @@
           <url>file://$PROJECT_DIR$/src/gaze/schemas.py</url>
           <line>2</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/turn_prediction/__init__.py</url>
+          <line>13</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/turn_prediction/__init__.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/turn_prediction/dummy_model.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/turn_prediction/features.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

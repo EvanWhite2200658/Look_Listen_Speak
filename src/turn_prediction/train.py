@@ -15,13 +15,13 @@ from torch.optim import AdamW
 from torch.utils.data import DataLoader, Subset
 from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix
 
-from .columns import (
+from columns import (
     GAZE_TRANSFORMER_FEATURE_COLUMNS,
     RICH_TURN_PREDICTION_FEATURE_COLUMNS,
     MAIN_TARGET_COLUMN,
 )
-from .dataset import DatasetConfig, TurnPredictionDataset, build_dataset_from_multiple_csvs
-from .model import TransformerConfig, TurnShiftTransformer
+from dataset import DatasetConfig, TurnPredictionDataset, build_dataset_from_multiple_csvs
+from model import TransformerConfig, TurnShiftTransformer
 
 class FocalLoss(nn.Module):
     """
@@ -349,6 +349,7 @@ def save_checkpoint(
         val_loss: float,
         best_threshold: float | None = None,
         best_val_f1: float | None = None,
+        feature_columns: list[str] | None = None,
 ) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -361,6 +362,7 @@ def save_checkpoint(
         "model_state_dict": model.state_dict(),
         "model_config": asdict(model_config),
         "training_config": asdict(training_config),
+        "feature_columns": feature_columns,
     }
     torch.save(payload, checkpoint_path)
 
@@ -372,6 +374,7 @@ def save_checkpoint(
         "best_val_f1": best_val_f1,
         "model_config": asdict(model_config),
         "training_config": asdict(training_config),
+        "feature_columns": feature_columns,
     }
     metadata_path.write_text(json.dumps(metadata, indent=2))
 
@@ -534,6 +537,7 @@ def train_model(training_config: TrainingConfig) -> Path:
                 val_loss=val_loss,
                 best_threshold=best_threshold_result["threshold"],
                 best_val_f1=best_threshold_result["f1"],
+                feature_columns=get_feature_columns(training_config.feature_set),
             )
             print(
                 f" Saved new best checkpoint to: {best_checkpoint_path} "

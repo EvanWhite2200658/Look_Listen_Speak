@@ -29,6 +29,9 @@ def main() -> None:
     print("\nTraining config:")
     print(json.dumps(checkpoint.get("training_config", {}), indent=2))
 
+    print("\nFeature Columns:")
+    print(json.dumps(checkpoint.get("feature_columns", {}), indent=2))
+
     print("\nBest threshold:", checkpoint.get("best_threshold"))
     print("Best val F1:", checkpoint.get("best_val_f1"))
     print("Validation loss:", checkpoint.get("val_loss"))
