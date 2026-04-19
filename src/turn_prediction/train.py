@@ -18,6 +18,7 @@ from sklearn.metrics import precision_score, recall_score, f1_score, confusion_m
 from .columns import (
     GAZE_TRANSFORMER_FEATURE_COLUMNS,
     RICH_TURN_PREDICTION_FEATURE_COLUMNS,
+    RUNTIME_COMPATIBLE_FEATURE_COLUMNS,
     MAIN_TARGET_COLUMN,
 )
 from .dataset import DatasetConfig, TurnPredictionDataset, build_dataset_from_multiple_csvs
@@ -385,6 +386,8 @@ def get_feature_columns(feature_set: str) -> list[str]:
         return list(GAZE_TRANSFORMER_FEATURE_COLUMNS)
     if feature_set == "rich":
         return list(RICH_TURN_PREDICTION_FEATURE_COLUMNS)
+    if feature_set == "runtime_compatible":
+        return list(RUNTIME_COMPATIBLE_FEATURE_COLUMNS)
 
     raise ValueError(f"Unknown feature_set: {feature_set}")
 
@@ -559,8 +562,8 @@ def main() -> None:
     DATA_DIR = BASE_DIR / "data" / "processed"
     config= TrainingConfig(
         data_path=str(DATA_DIR),
-        output_dir="artifacts/turn_prediction",
-        feature_set="rich",
+        output_dir="artifacts/turn_prediction_runtime_compatible",
+        feature_set="runtime_compatible",
         window_size=30,
         stride=5,
         batch_size=64,
