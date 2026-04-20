@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="trained the runtime model and it sucks worse">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_live_vs_training_feature_ranges.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_training_feature_ranges.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/test_strongest_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/test_strongest_runtime_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/runtime_hcs_adapter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_hcs_adapter.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="refactoring" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -58,11 +56,16 @@
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "archiving",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\aweso\PycharmProjects\Look_Listen_Speak\deprecated_files" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -302,7 +305,23 @@
       <option name="project" value="LOCAL" />
       <updated>1776621565386</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="tested mean difference between features in training vs live.&#10;worst offenders - likely causes:&#10;headpose.pitch - radian training vs live degrees&#10;gaze.x/y/z - vectors dont match training at all, could be constructed in different frame or with wrong axes&#10;head.x/y/z - ALL 0 HCS adapter is feeding zeros for some reason&#10;&#10;conclusion - HCS adapter is not best fit for the live system">
+      <option name="closed" value="true" />
+      <created>1776719417414</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1776719417414</updated>
+    </task>
+    <task id="LOCAL-00030" summary="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests">
+      <option name="closed" value="true" />
+      <created>1776720016363</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1776720016363</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -317,8 +336,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implement gaze tracking module wrapper using GazeFollower&#10;&#10; - Added standardized GazeSample schema&#10; - implemented converter from GazeFollower gaze_info to internal format&#10; - created GazeTrackerModule wrapper with buffering and polling&#10; - added test script for standalone gaze module validation&#10; - established modular structure for gaze subsystem" />
-    <MESSAGE value="Add background gaze tracking service&#10;&#10;- Added GazeTrackingService for continuous gaze polling in a background thread&#10;- Exposed latest sample and recent window accessors for downstream modules&#10;- Added package exports for gaze subsystem&#10;- Added standalone test script for live service validation" />
     <MESSAGE value="add turn-transition prediction model foundation&#10;&#10;- define GazeWindow and TurnPrediction schemas&#10;- create abstract TurnPredictionModel interface&#10;- implement DummyTurnModel for pipeline testing&#10;- added test script integrating gaze service with prediction module" />
     <MESSAGE value="add gaze feature extraction pipeline for turn prediction&#10;&#10;- added configurable feature extraction from GazeSample to per-frame vector&#10;- implemented GazeWindow to sequence conversion for model input&#10;- added optional first-order delta features for temporal dynamics&#10;- added feature extraction test script using live gaze service&#10;- added turn_prediction package exports" />
     <MESSAGE value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
@@ -342,7 +359,9 @@
     <MESSAGE value="load runtime-compatible checkpoint in deployment inference wrapper" />
     <MESSAGE value="point runtime harness at runtime-compatible checkpoint" />
     <MESSAGE value="trained the runtime model and it sucks worse" />
-    <option name="LAST_COMMIT_MESSAGE" value="trained the runtime model and it sucks worse" />
+    <MESSAGE value="tested mean difference between features in training vs live.&#10;worst offenders - likely causes:&#10;headpose.pitch - radian training vs live degrees&#10;gaze.x/y/z - vectors dont match training at all, could be constructed in different frame or with wrong axes&#10;head.x/y/z - ALL 0 HCS adapter is feeding zeros for some reason&#10;&#10;conclusion - HCS adapter is not best fit for the live system" />
+    <MESSAGE value="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -353,17 +372,7 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/turn_prediction/__init__.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/turn_prediction/__init__.py</url>
-          <line>20</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/turn_prediction/dummy_model.py</url>
+          <url>file://$PROJECT_DIR$/deprecated_files/dummy_model.py</url>
           <line>2</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>

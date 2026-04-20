@@ -16,13 +16,13 @@ from torch.utils.data import DataLoader, Subset, WeightedRandomSampler
 
 
 from model import TransformerConfig, TurnShiftTransformer
-from overlap_dataset import OverlapSequenceDataset
+from deprecated_files.overlap_dataset import OverlapSequenceDataset
 
 
 @dataclass(frozen=True)
 class OverlapTrainingConfig:
     data_path: str
-    output_dir: str = "artifacts/overlap_model"
+    output_dir: str = "../src/turn_prediction/artifacts/overlap_model"
     window_size: int = 30
     stride: int = 5
     batch_size: int = 64

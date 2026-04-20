@@ -11,7 +11,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 
-from overlap_columns import ALL_COLUMNS, TARGET_COLUMN
+from deprecated_files.overlap_columns import ALL_COLUMNS, TARGET_COLUMN
 
 
 @dataclass(frozen=True)

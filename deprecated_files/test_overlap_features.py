@@ -5,7 +5,7 @@ from __future__ import annotations
 import time
 
 from src.gaze.service import GazeTrackingService
-from overlap_features import (
+from deprecated_files.overlap_features import (
 OverlapFeatureConfig,
 gaze_window_to_overlap_sequence,
 get_overlap_feature_dim,

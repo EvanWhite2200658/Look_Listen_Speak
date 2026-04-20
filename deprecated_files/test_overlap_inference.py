@@ -6,7 +6,7 @@ import time
 from pathlib import Path
 
 from src.gaze.service import GazeTrackingService
-from overlap_inference_model import OverlapTurnModel
+from deprecated_files.overlap_inference_model import OverlapTurnModel
 from schemas import GazeWindow
 
 

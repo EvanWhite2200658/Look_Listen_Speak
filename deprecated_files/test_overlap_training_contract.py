@@ -1,6 +1,6 @@
 # src/turn_prediction/test_overlap_training_contract.py
 
-from overlap_dataset import OverlapSequenceDataset
+from deprecated_files.overlap_dataset import OverlapSequenceDataset
 from pathlib import Path
 
 def main():

@@ -6,9 +6,9 @@ from typing import Any
 
 import torch
 
-from .model import TransformerConfig, TurnShiftTransformer
+from src.turn_prediction.model import TransformerConfig, TurnShiftTransformer
 from .overlap_features import OverlapFeatureConfig, gaze_window_to_overlap_sequence
-from .schemas import GazeWindow, TurnPrediction
+from src.turn_prediction.schemas import GazeWindow, TurnPrediction
 
 
 class OverlapTurnModel:
