@@ -118,9 +118,9 @@ def _estimate_head_pose_from_landmarks(sample: GazeSample) -> tuple[float, float
     eye_mid = (left_eye + right_eye) / 2.0
     mouth_mid = (mouth_left + mouth_right) / 2.0
 
-    roll = float(np.degrees(np.arctan2(eye_vec[1], eye_vec[0])))
-    yaw = float(np.degrees(np.arctan2(nose[0] - eye_mid[0], max(np.linalg.norm(eye_vec[:2]), 1e-6))))
-    pitch = float(np.degrees(np.arctan2(nose[2] - eye_mid[2], max(np.linalg.norm(mouth_mid - eye_mid), 1e-6))))
+    roll = float(np.radians(np.arctan2(eye_vec[1], eye_vec[0])))
+    yaw = float(np.radians(np.arctan2(nose[0] - eye_mid[0], max(np.linalg.norm(eye_vec[:2]), 1e-6))))
+    pitch = float(np.radians(np.arctan2(nose[2] - eye_mid[2], max(np.linalg.norm(mouth_mid - eye_mid), 1e-6))))
     return roll, pitch, yaw
 
 
@@ -155,17 +155,16 @@ def _best_gaze_vector(sample: GazeSample) -> np.ndarray:
         return np.asarray([0.0, 0.0, 1.0], dtype=np.float32)
 
     gx, gy = float(gaze_xy[0]), float(gaze_xy[1])
-    origin_x, origin_y, origin_z = _head_origin(sample)
+
+    cx, cy, _ = _head_origin(sample)
     scale = _face_scale(sample)
 
-    vec = np.asarray([
-        (gx - origin_x) / scale,
-        (gy - origin_y) / scale,
-        1.0,
-    ], dtype=np.float32)
-    norm = max(float(np.linalg.norm(vec)), 1e-6)
-    return vec / norm
+    x = (gx - cx) / scale
+    y = (gy - cy) / scale
+    z = 1.0
 
+    vec = np.array([x, y, z], dtype=np.float32)
+    return vec / max(np.linalg.norm(vec), 1e-6)
 
 
 def sample_to_hcs_style_base_features(sample: GazeSample) -> np.ndarray:
@@ -181,7 +180,8 @@ def sample_to_hcs_style_base_features(sample: GazeSample) -> np.ndarray:
     gaze_vec_world = _best_gaze_vector(sample)
     gaze_vec_head = inv_rotation @ gaze_vec_world
 
-    head_rel = np.asarray([0.0, 0.0, 0.0], dtype=np.float32)
+    head_world = np.asarray(_head_origin(sample), dtype=np.float32)
+    head_rel = (head_world - head_world.mean()) / _face_scale(sample)
 
     return np.asarray(
         [
