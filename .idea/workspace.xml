@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="trained the runtime model and it sucks worse">
-      <change afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_hcs_adapter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_live_vs_training_feature_ranges.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/test_training_feature_ranges.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/runtime_compatible_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_compatible_features.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/test_strongest_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/test_strongest_runtime_pipeline.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,16 +47,18 @@
     "Python.test_live_feature_contract.executor": "Run",
     "Python.test_live_features.executor": "Run",
     "Python.test_live_model_contract.executor": "Run",
+    "Python.test_live_vs_training_feature_ranges.executor": "Run",
     "Python.test_overlap_features.executor": "Run",
     "Python.test_overlap_training_contract.executor": "Run",
     "Python.test_strongest_runtime_pipeline.executor": "Run",
+    "Python.test_training_feature_ranges.executor": "Run",
     "Python.test_turn_prediction.executor": "Run",
     "Python.train.executor": "Run",
     "Python.train_live_model.executor": "Run",
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "normalisation",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
