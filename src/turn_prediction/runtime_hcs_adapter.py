@@ -139,15 +139,24 @@ def _best_eye_xyz(sample: GazeSample) -> tuple[float, float, float]:
     if sample.face is not None:
         landmarks = sample.face.face_landmarks
         if landmarks and _has_landmark_indices(landmarks, LEFT_EYE_LANDMARKS + RIGHT_EYE_LANDMARKS):
-            left_eye = _mean_landmarks(landmarks, LEFT_EYE_LANDMARKS)
-            right_eye = _mean_landmarks(landmarks, RIGHT_EYE_LANDMARKS)
-            return (
-                (left_eye[0] + right_eye[0]) / 2.0,
-                (left_eye[1] + right_eye[1]) / 2.0,
-                (left_eye[2] + right_eye[2]) / 2.0,
-            )
+            left_eye = np.asarray(_mean_landmarks(landmarks, LEFT_EYE_LANDMARKS))
+            right_eye = np.asarray(_mean_landmarks(landmarks, RIGHT_EYE_LANDMARKS))
+            eye_world = (left_eye + right_eye) / 2.0
+
+            head_origin = np.asarray(_head_origin(sample), dtype=np.float32)
+            scale = _face_scale(sample)
+
+            eye_rel = (eye_world - head_origin) / max(scale, 1e-6)
+            return float(eye_rel[0]), float(eye_rel[1]), float(eye_rel[2])
+
     return 0.0, 0.0, 0.0
 
+def _face_center_2d(sample: GazeSample) -> tuple[float, float]:
+    if sample.face is not None and sample.face.face_rect is not None:
+        x, y, w, h = sample.face.face_rect
+        return float(x + w / 2.0), float(y + h / 2.0)
+
+    return 0.0, 0.0
 
 def _best_gaze_vector(sample: GazeSample) -> np.ndarray:
     gaze_xy = sample.filtered_xy or sample.calibrated_xy or sample.raw_xy
@@ -156,14 +165,13 @@ def _best_gaze_vector(sample: GazeSample) -> np.ndarray:
 
     gx, gy = float(gaze_xy[0]), float(gaze_xy[1])
 
-    cx, cy, _ = _head_origin(sample)
+    cx, cy = _face_center_2d(sample)
     scale = _face_scale(sample)
 
-    x = (gx - cx) / scale
-    y = (gy - cy) / scale
-    z = 1.0
-
-    vec = np.array([x, y, z], dtype=np.float32)
+    dx = (gx - cx) / max(scale, 1e-6)
+    dy = (gy - cy) / max(scale, 1e-6)
+    print(f"dx={dx:.4f}, dy={dy:.4f}")
+    vec = np.array([dx, -dy, 1.0], dtype=np.float32)
     return vec / max(np.linalg.norm(vec), 1e-6)
 
 

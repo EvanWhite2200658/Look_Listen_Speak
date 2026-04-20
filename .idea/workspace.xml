@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +57,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "more-fixing",
     "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -326,7 +328,23 @@
       <option name="project" value="LOCAL" />
       <updated>1776720842582</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fix feature distribution mismatch: normalise gaze vector, convert head pose to radians, restore head position">
+      <option name="closed" value="true" />
+      <created>1776721281898</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1776721281898</updated>
+    </task>
+    <task id="LOCAL-00033" summary="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility">
+      <option name="closed" value="true" />
+      <created>1776724320944</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1776724320944</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -341,8 +359,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add turn-transition prediction model foundation&#10;&#10;- define GazeWindow and TurnPrediction schemas&#10;- create abstract TurnPredictionModel interface&#10;- implement DummyTurnModel for pipeline testing&#10;- added test script integrating gaze service with prediction module" />
-    <MESSAGE value="add gaze feature extraction pipeline for turn prediction&#10;&#10;- added configurable feature extraction from GazeSample to per-frame vector&#10;- implemented GazeWindow to sequence conversion for model input&#10;- added optional first-order delta features for temporal dynamics&#10;- added feature extraction test script using live gaze service&#10;- added turn_prediction package exports" />
     <MESSAGE value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
     <MESSAGE value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
     <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
@@ -366,7 +382,9 @@
     <MESSAGE value="trained the runtime model and it sucks worse" />
     <MESSAGE value="tested mean difference between features in training vs live.&#10;worst offenders - likely causes:&#10;headpose.pitch - radian training vs live degrees&#10;gaze.x/y/z - vectors dont match training at all, could be constructed in different frame or with wrong axes&#10;head.x/y/z - ALL 0 HCS adapter is feeding zeros for some reason&#10;&#10;conclusion - HCS adapter is not best fit for the live system" />
     <MESSAGE value="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests" />
+    <MESSAGE value="fix feature distribution mismatch: normalise gaze vector, convert head pose to radians, restore head position" />
+    <MESSAGE value="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility" />
+    <option name="LAST_COMMIT_MESSAGE" value="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
