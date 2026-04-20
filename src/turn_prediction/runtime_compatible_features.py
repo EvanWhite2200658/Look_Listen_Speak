@@ -91,7 +91,7 @@ def _best_gaze_xyz(sample: GazeSample) -> tuple[float, float, float]:
     gaze_z = 0.0
     if sample.face is not None:
         landmarks = sample.face.face_landmarks
-        if landmarks and _has_landmark_indices(landmarks, [NOES_INDEX]):
+        if landmarks and _has_landmark_indices(landmarks, [NOSE_INDEX]):
             gaze_z = float(landmarks[NOSE_INDEX][2])
         elif sample.face.face_rect is not None:
             _, _, w, h = sample.face.face_rect
@@ -105,7 +105,7 @@ def _best_head_xyz(sample: GazeSample) -> tuple[float, float, float]:
 
     landmarks = sample.face.face_landmarks
     if landmarks and _has_landmark_indices(landmarks, [LEFT_FACE_INDEX, RIGHT_FACE_INDEX, NOSE_INDEX, CHIN_INDEX]):
-        left_face = landmark[LEFT_FACE_INDEX]
+        left_face = landmarks[LEFT_FACE_INDEX]
         right_face = landmarks[RIGHT_FACE_INDEX]
         nose = landmarks[NOSE_INDEX]
         chin = landmarks[CHIN_INDEX]
@@ -147,7 +147,7 @@ def _estimate_head_pose_from_landmarks(sample: GazeSample) -> tuple[float, float
     mouth_right = landmarks[MOUTH_RIGHT_INDEX]
 
     nose_x, nose_y, nose_z = map(float, nose)
-    chin_x, chin_y, chin_z = mapp(float, chin)
+    chin_x, chin_y, chin_z = map(float, chin)
     left_eye_x, left_eye_y, left_eye_z = map(float, left_eye_outer)
     right_eye_x, right_eye_y, right_eye_z = map(float, right_eye_outer)
     mouth_left_x, mouth_left_y, mouth_left_z = map(float, mouth_left)

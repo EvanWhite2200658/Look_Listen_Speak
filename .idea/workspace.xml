@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="point runtime harness at runtime-compatible checkpoint">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="trained the runtime model and it sucks worse">
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_hcs_adapter.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/turn_prediction/runtime_compatible_features.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_compatible_features.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,7 +25,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="refactoring" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -54,7 +56,7 @@
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "refactoring",
+    "git-widget-placeholder": "normalisation",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
@@ -282,7 +284,23 @@
       <option name="project" value="LOCAL" />
       <updated>1776618934946</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="trained the runtime model and it sucks worse">
+      <option name="closed" value="true" />
+      <created>1776621538942</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1776621538942</updated>
+    </task>
+    <task id="LOCAL-00028" summary="trained the runtime model and it sucks worse">
+      <option name="closed" value="true" />
+      <created>1776621565386</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1776621565386</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -297,7 +315,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="initial structure commit" />
     <MESSAGE value="implement gaze tracking module wrapper using GazeFollower&#10;&#10; - Added standardized GazeSample schema&#10; - implemented converter from GazeFollower gaze_info to internal format&#10; - created GazeTrackerModule wrapper with buffering and polling&#10; - added test script for standalone gaze module validation&#10; - established modular structure for gaze subsystem" />
     <MESSAGE value="Add background gaze tracking service&#10;&#10;- Added GazeTrackingService for continuous gaze polling in a background thread&#10;- Exposed latest sample and recent window accessors for downstream modules&#10;- Added package exports for gaze subsystem&#10;- Added standalone test script for live service validation" />
     <MESSAGE value="add turn-transition prediction model foundation&#10;&#10;- define GazeWindow and TurnPrediction schemas&#10;- create abstract TurnPredictionModel interface&#10;- implement DummyTurnModel for pipeline testing&#10;- added test script integrating gaze service with prediction module" />
@@ -322,7 +339,8 @@
     <MESSAGE value="add runtime-compatible training feature space for live deployment checkpoint" />
     <MESSAGE value="load runtime-compatible checkpoint in deployment inference wrapper" />
     <MESSAGE value="point runtime harness at runtime-compatible checkpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="point runtime harness at runtime-compatible checkpoint" />
+    <MESSAGE value="trained the runtime model and it sucks worse" />
+    <option name="LAST_COMMIT_MESSAGE" value="trained the runtime model and it sucks worse" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
