@@ -90,7 +90,7 @@ class SileroVADService:
             chunk,
             self._model,
             threshold=self.speech_threshold,
-            sampleing_rate=self.model_sample_rate,
+            sampling_rate=self.model_sample_rate,
             min_silence_duration_ms=self.min_silence_duration_ms,
         )
 

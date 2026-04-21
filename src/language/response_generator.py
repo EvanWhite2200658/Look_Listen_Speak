@@ -49,7 +49,7 @@ class QwenResponseGenerator:
     def generate_response(self, request: ResponseRequest) -> ResponseResult:
         messages = self._build_messages(request)
 
-        model_inputs = self.tokenizer.apple_chat_template(
+        model_inputs = self.tokenizer.apply_chat_template(
             messages,
             tokenize=True,
             add_generation_prompt=True,
