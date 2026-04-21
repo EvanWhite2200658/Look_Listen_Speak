@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added event-based response permission coordination&#10;- kept response gaze permission-only&#10;- delayed TTS playback until control path grants permission&#10;- added VAD-driven suppression and interruption of speech output">
+      <change afterPath="$PROJECT_DIR$/src/turn_prediction/plot_training_history.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/response_gate.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/response_gate.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +39,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.plot_training_history.executor": "Run",
     "Python.test_checkpoint_metadata.executor": "Run",
     "Python.test_gaze_wrapper.executor": "Run",
     "Python.test_gazefollower_probe.executor": "Run",
@@ -60,8 +60,12 @@
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "final-integration",
     "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "preferences.keymap"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -72,6 +76,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-PY-251.23774.444" />
         <option value="bundled-python-sdk-890ed5b35930-d9c5bdb153f4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.23774.444" />
       </set>
     </attachedChunks>
@@ -86,6 +91,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1774494773109</updated>
+      <workItem from="1776794884414" duration="2468000" />
     </task>
     <task id="LOCAL-00001" summary="initial structure commit">
       <option name="closed" value="true" />
@@ -367,8 +373,19 @@
       <option name="project" value="LOCAL" />
       <updated>1776753330872</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="- added event-based response permission coordination&#10;- kept response gaze permission-only&#10;- delayed TTS playback until control path grants permission&#10;- added VAD-driven suppression and interruption of speech output">
+      <option name="closed" value="true" />
+      <created>1776754288676</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1776754288676</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -382,7 +399,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
     <MESSAGE value="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset" />
     <MESSAGE value="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only" />
     <MESSAGE value="Runtime bridge from live gaze windows to strongest dataset feature space" />
@@ -407,7 +423,8 @@
     <MESSAGE value="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility" />
     <MESSAGE value="moved more files to archive" />
     <MESSAGE value="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS" />
+    <MESSAGE value="- added event-based response permission coordination&#10;- kept response gaze permission-only&#10;- delayed TTS playback until control path grants permission&#10;- added VAD-driven suppression and interruption of speech output" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added event-based response permission coordination&#10;- kept response gaze permission-only&#10;- delayed TTS playback until control path grants permission&#10;- added VAD-driven suppression and interruption of speech output" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -427,5 +444,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$tts_test.coverage" NAME="tts_test Coverage Results" MODIFIED="1776752190957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tts" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$plot_training_history.coverage" NAME="plot_training_history Coverage Results" MODIFIED="1776797360069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/turn_prediction" />
   </component>
 </project>
