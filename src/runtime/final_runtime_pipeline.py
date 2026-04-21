@@ -48,7 +48,6 @@ class FinalRuntimePipeline:
         self.response_gate = TurnResponseGate(
             timing_controller=self.timing_controller,
             vad=self.vad,
-            tts=self.tts,
         )
         self.utterance_capture = UtteranceCapture(sample_rate=self.vad.input_sample_rate)
         self.vad.add_audio_subscriber(self._handle_audio_chunk)
@@ -60,6 +59,9 @@ class FinalRuntimePipeline:
         self._stop_event = threading.Event()
         self._worker_thread: Optional[threading.Thread] = None
         self._loop_poll_s = 0.03
+
+        # Shared control state
+        self._response_permission_event = threading.Event()
 
     def start(self) -> None:
         self.logger.log("runtime_start")
@@ -80,6 +82,7 @@ class FinalRuntimePipeline:
 
     def stop(self) -> None:
         self._stop_event.set()
+        self._response_permission_event.clear()
         self.logger.log("runtime_stop")
 
         if self._worker_thread is not None and self._worker_thread.is_alive():
@@ -105,6 +108,7 @@ class FinalRuntimePipeline:
             )
 
             if not full_window_ready:
+                self._response_permission_event.clear()
                 time.sleep(self._loop_poll_s)
                 continue
 
@@ -138,10 +142,17 @@ class FinalRuntimePipeline:
             )
 
             self.avatar.set_mode("listening")
-            result = self.response_gate.execute_response(
-                prediction=prediction,
-                text="placeholder runtime text",
-            )
+            result = self.response_gate.execute_response(prediction=prediction)
+
+            if result.permission_granted:
+                self._response_permission_event.set()
+            else:
+                self._response_permission_event.clear()
+                # if the user starts speaking while we had permission, stop current TTS
+                if self.vad.user_is_speaking() and self.tts.is_speaking:
+                    self.tts.stop()
+                    self.logger.log("tts_interrupted_by_vad")
+
             self.logger.log(
                 "response_gate_result",
                 cancelled_by_vad=result.cancelled_by_vad,
@@ -223,6 +234,21 @@ class FinalRuntimePipeline:
                 generated_tokens=response.generated_tokens,
                 generation_time_s=time.perf_counter() - response_start,
             )
+
+            self.logger.log("waiting_for_response_permission")
+            while not self._stop_event.is_set():
+                if self._response_permission_event.is_set():
+                    break
+                time.sleep(0.01)
+
+            if self._stop_event.is_set():
+                self._downstream_queue.task_done()
+                break
+
+            if self.vad.user_is_speaking():
+                self.logger.log("tts_suppressed_by_vad_before_start")
+                self._downstream_queue.task_done()
+                continue
 
             self.avatar.set_mode("speaking")
             synthesis_start = time.perf_counter()

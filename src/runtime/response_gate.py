@@ -7,17 +7,10 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from src.turn_prediction.schemas import TurnPrediction
-from timing_controller import ConfidenceTimingController, TimingDecision
+from src.runtime.timing_controller import ConfidenceTimingController, TimingDecision
 
 class SileroVADLike(Protocol):
     def user_is_speaking(self) -> bool:
-        ...
-
-class PiperTTSLike(Protocol):
-    def speak(self, text: str) -> None:
-        ...
-
-    def stop(self) -> None:
         ...
 
 
@@ -26,7 +19,7 @@ class ResponseGateResult:
     prediction_probability: float
     timing: TimingDecision
     cancelled_by_vad: bool
-    spoke: bool
+    permission_granted: bool
 
 
 class TurnResponseGate:
@@ -44,15 +37,13 @@ class TurnResponseGate:
             self,
             timing_controller: ConfidenceTimingController,
             vad: SileroVADLike,
-            tts: PiperTTSLike,
             poll_interval_s: float = 0.02,
     ) -> None:
         self.timing_controller = timing_controller
         self.vad = vad
-        self.tts = tts
         self.poll_interval_s = poll_interval_s
 
-    def execute_response(self, prediction: TurnPrediction, text: str) -> ResponseGateResult:
+    def execute_response(self, prediction: TurnPrediction) -> ResponseGateResult:
         timing = self.timing_controller.compute_wait(prediction.probability)
 
         wait_s = timing.adjusted_wait_ms / 1000.0
@@ -64,7 +55,7 @@ class TurnResponseGate:
                     prediction_probability=prediction.probability,
                     timing=timing,
                     cancelled_by_vad=True,
-                    spoke=False,
+                    permission_granted=False,
                 )
             time.sleep(self.poll_interval_s)
 
@@ -73,23 +64,12 @@ class TurnResponseGate:
                 prediction_probability=prediction.probability,
                 timing=timing,
                 cancelled_by_vad=True,
-                spoke=False,
-            )
-
-        self.tts.speak(text)
-
-        if self.vad.user_is_speaking():
-            self.tts.stop()
-            return ResponseGateResult(
-                prediction_probability=prediction.probability,
-                timing=timing,
-                cancelled_by_vad=True,
-                spoke=False,
+                permission_granted=False,
             )
 
         return ResponseGateResult(
             prediction_probability=prediction.probability,
             timing=timing,
             cancelled_by_vad=False,
-            spoke=True,
+            permission_granted=True,
         )

@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="moved more files to archive">
-      <change afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runtime/response_gate.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/response_gate.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -359,7 +359,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776733270016</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS">
+      <option name="closed" value="true" />
+      <created>1776753330872</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1776753330872</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -374,7 +382,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
     <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
     <MESSAGE value="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset" />
     <MESSAGE value="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only" />
@@ -399,7 +406,8 @@
     <MESSAGE value="fix feature distribution mismatch: normalise gaze vector, convert head pose to radians, restore head position" />
     <MESSAGE value="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility" />
     <MESSAGE value="moved more files to archive" />
-    <option name="LAST_COMMIT_MESSAGE" value="moved more files to archive" />
+    <MESSAGE value="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
