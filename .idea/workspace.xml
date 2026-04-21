@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility">
+      <change afterPath="$PROJECT_DIR$/src/tts/piper_tts_service.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/tts/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,8 +57,9 @@
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "more-fixing",
+    "git-widget-placeholder": "tts-integration",
     "ignore.virus.scanning.warn.message": "true",
+    "node.js.selected.package.tslint": "(autodetect)",
     "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
