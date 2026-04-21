@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility">
+      <change afterPath="$PROJECT_DIR$/src/language/response_generator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/language/schemas.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="archiving" />
+        <entry key="$PROJECT_DIR$" value="transcription-integration" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,8 +57,9 @@
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "more-fixing",
+    "git-widget-placeholder": "language-integration",
     "ignore.virus.scanning.warn.message": "true",
+    "node.js.selected.package.tslint": "(autodetect)",
     "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
@@ -344,7 +347,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776724320944</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="- added transcription schemas for structured ASR outputs&#10;- added faster-whisper transcription service for completed utterances&#10;- kept ASR off the critical turn-timing path&#10;- preserved modular separation between VAD, utterance capture, and transcription">
+      <option name="closed" value="true" />
+      <created>1776739771859</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1776739771859</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,7 +370,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- validated saved turn-prediction checkpoint loading and metadata path&#10;- confirmed live inference blocker is training/live feature-space mismatch&#10;- established rich 30-feature checkpoint contract for next integration step" />
     <MESSAGE value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
     <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
     <MESSAGE value="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset" />
@@ -384,7 +394,8 @@
     <MESSAGE value="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests" />
     <MESSAGE value="fix feature distribution mismatch: normalise gaze vector, convert head pose to radians, restore head position" />
     <MESSAGE value="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility" />
-    <option name="LAST_COMMIT_MESSAGE" value="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility" />
+    <MESSAGE value="- added transcription schemas for structured ASR outputs&#10;- added faster-whisper transcription service for completed utterances&#10;- kept ASR off the critical turn-timing path&#10;- preserved modular separation between VAD, utterance capture, and transcription" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added transcription schemas for structured ASR outputs&#10;- added faster-whisper transcription service for completed utterances&#10;- kept ASR off the critical turn-timing path&#10;- preserved modular separation between VAD, utterance capture, and transcription" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
