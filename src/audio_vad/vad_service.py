@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import threading
+import time
+from collections.abc import Callable
 from typing import Optional
 
 import numpy as np
 import sounddevice as sd
 import torch
 from silero_vad import load_silero_vad, get_speech_timestamps
+
+AudioSubscriber = Callable[[np.ndarray, bool, int], None]
 
 
 class SileroVADService:
@@ -18,6 +22,10 @@ class SileroVADService:
     Exposes a lightweight 'user_is_speaking()' method for runtime gating.
     Audio capture runs continuously in the background and speech state is updated
     from a short rolling window.
+
+    Optional subscribers can receive raw input audio chunks, the derived speaking
+    state, and a callback timestamp. This allows utterance capture to reuse the
+    same microphone stream without creating a second competing input device.
     """
 
     def __init__(
@@ -39,13 +47,11 @@ class SileroVADService:
         self._model = load_silero_vad()
         self._stream: Optional[sd.InputStream] = None
         self._lock = threading.Lock()
+        self._subscribers: list[AudioSubscriber] = []
 
         self._is_running = False
         self._is_speaking = False
-        self._last_speech_time = 0.0
-
         self._input_block_size = int(self.input_sample_rate * self.block_duration_ms / 1000)
-        self._model_window_size = int(self.model_sample_rate * self.block_duration_ms / 1000)
 
     def start(self) -> None:
         if self._is_running:
@@ -76,12 +82,21 @@ class SileroVADService:
 
         self._is_running = False
 
+    def add_audio_subscriber(self, subscriber: AudioSubscriber) -> None:
+        with self._lock:
+            self._subscribers.append(subscriber)
+
+    def remove_audio_subscriber(self, subscriber: AudioSubscriber) -> None:
+        with self._lock:
+            self._subscribers = [fn for fn in self._subscribers if fn is not subscriber]
+
     def _audio_callback(self, indata, frames, time_info, status) -> None:
         if status:
             return
 
-        audio = np.squeeze(np.copy(indata), axis=1)
-        audio_16k = self._resample_to_16k(audio)
+        timestamp_ns = time.time_ns()
+        audio_48k = np.squeeze(np.copy(indata), axis=1).astype(np.float32, copy=False)
+        audio_16k = self._resample_to_16k(audio_48k)
         if audio_16k.size == 0:
             return
 
@@ -97,6 +112,15 @@ class SileroVADService:
         speaking_now = len(speech_dicts) > 0
         with self._lock:
             self._is_speaking = speaking_now
+            subscribers = list(self._subscribers)
+
+        for subscriber in subscribers:
+            try:
+                subscriber(audio_48k, speaking_now, timestamp_ns)
+            except Exception:
+                # keep the audio callback resilient; logging can be added outside
+                # the callback if needed
+                pass
 
     def _resample_to_16k(self, audio: np.ndarray) -> np.ndarray:
         if self.input_sample_rate == self.model_sample_rate:
