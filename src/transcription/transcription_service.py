@@ -5,9 +5,7 @@ from __future__ import annotations
 import time
 from typing import Optional
 
-import numpy as np
 from faster_whisper import WhisperModel
-from rich import segment
 
 from src.audio_vad.utterance_capture import CapturedUtterance
 from src.transcription.schemas import TranscriptionResult, TranscriptionSegment
