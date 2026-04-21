@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="removed unused imports">
-      <change afterPath="$PROJECT_DIR$/src/runtime/runtime_logging.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/runtime/runtime_monitor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/runtime/runtime_schemas.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="moved more files to archive">
+      <change afterPath="$PROJECT_DIR$/src/audio_vad/vad_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="archiving" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,9 +56,8 @@
     "Python.train_overlap_model.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "final-integration",
+    "git-widget-placeholder": "VAD-integration",
     "ignore.virus.scanning.warn.message": "true",
-    "node.js.selected.package.tslint": "(autodetect)",
     "settings.editor.selected.configurable": "preferences.keymap"
   }
 }]]></component>
@@ -74,9 +72,6 @@
         <option value="bundled-python-sdk-890ed5b35930-d9c5bdb153f4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.23774.444" />
       </set>
     </attachedChunks>
-  </component>
-  <component name="SvnConfiguration">
-    <configuration>C:\Users\aweso\AppData\Roaming\Subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -350,23 +345,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776724320944</updated>
     </task>
-    <task id="LOCAL-00034" summary="fixed typos oops">
+    <task id="LOCAL-00034" summary="moved more files to archive">
       <option name="closed" value="true" />
-      <created>1776744684715</created>
+      <created>1776733270016</created>
       <option name="number" value="00034" />
       <option name="presentableId" value="LOCAL-00034" />
       <option name="project" value="LOCAL" />
-      <updated>1776744684715</updated>
+      <updated>1776733270016</updated>
     </task>
-    <task id="LOCAL-00035" summary="removed unused imports">
-      <option name="closed" value="true" />
-      <created>1776744864894</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1776744864894</updated>
-    </task>
-    <option name="localTasksCounter" value="36" />
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -381,6 +368,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="- extended live gaze wrapper to retain face-alignment data alongside gaze output&#10;- switched buffering path to subscriber-based face+gaze sample collection&#10;- validated live samples now include landmarks and eye-region rectangles" />
     <MESSAGE value="- added first-class live-native model contract for training and inference&#10;- aligned Transformer input size with 44-dimensional live feature schema&#10;- established dedicated dataset, training, and checkpoint path for live-native models" />
     <MESSAGE value="- added 24-dimensional dataset/live overlap feature schema for final model path&#10;- validated live overlap feature extraction with stable timestep vectors&#10;- established deployment-safe training target compatible with existing dataset" />
     <MESSAGE value="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only" />
@@ -404,18 +392,12 @@
     <MESSAGE value="archived old overlap model files&#10;archived dummy model from early development&#10;archived deprecated training pipelines&#10;archived deprecated feature set&#10;archived old tests" />
     <MESSAGE value="fix feature distribution mismatch: normalise gaze vector, convert head pose to radians, restore head position" />
     <MESSAGE value="refine HCS adapter: normalise gaze construction, align axes and improve feature scaling for runtime compatibility" />
-    <MESSAGE value="fixed typos oops" />
-    <MESSAGE value="removed unused imports" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed unused imports" />
+    <MESSAGE value="moved more files to archive" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved more files to archive" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/src/gaze/schemas.py</url>
-          <line>2</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/deprecated_files/dummy_model.py</url>
           <line>2</line>
@@ -428,8 +410,5 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Look_Listen_Speak$tts_test.coverage" NAME="tts_test Coverage Results" MODIFIED="1776743091814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tts" />
   </component>
 </project>
