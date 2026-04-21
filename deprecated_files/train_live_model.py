@@ -12,8 +12,8 @@ from torch import nn
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 
-from src.turn_prediction.live_dataset import LiveSequenceDataset, split_live_dataset
-from src.turn_prediction.live_model_config import (
+from deprecated_files.live_dataset import LiveSequenceDataset, split_live_dataset
+from deprecated_files.live_model_config import (
     DEFAULT_LIVE_THRESHOLD,
     build_default_live_feature_config,
     build_live_transformer_config,

@@ -5,7 +5,7 @@ from __future__ import annotations
 import time
 
 from src.gaze.service import GazeTrackingService
-from live_features import (
+from deprecated_files.live_features import (
 LiveFeatureConfig,
 gaze_window_to_live_sequence,
 get_live_feature_dim,

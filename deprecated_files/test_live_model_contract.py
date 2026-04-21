@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from live_features import get_live_feature_dim
-from live_model_config import (
+from deprecated_files.live_features import get_live_feature_dim
+from deprecated_files.live_model_config import (
 build_default_live_feature_config,
 build_live_transformer_config,
 )

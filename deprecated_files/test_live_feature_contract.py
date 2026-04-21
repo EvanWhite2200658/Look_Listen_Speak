@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from live_feature_contract import (
+from deprecated_files.live_feature_contract import (
 build_live_feature_contract_report,
 format_live_feature_contract_report,
 )

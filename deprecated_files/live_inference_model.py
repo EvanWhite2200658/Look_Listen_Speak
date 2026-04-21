@@ -8,8 +8,8 @@ import torch
 
 from .live_features import gaze_window_to_live_sequence
 from .live_model_config import build_default_live_feature_config
-from .model import TransformerConfig, TurnShiftTransformer
-from .schemas import GazeWindow, TurnPrediction
+from src.turn_prediction.model import TransformerConfig, TurnShiftTransformer
+from src.turn_prediction.schemas import GazeWindow, TurnPrediction
 
 
 class LiveTurnModel:
