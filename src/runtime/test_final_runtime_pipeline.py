@@ -8,6 +8,7 @@ import time
 from pathlib import Path
 
 from src.runtime.final_runtime_pipeline import FinalRuntimePipeline
+from src.ui.avatar_screen import AvatarScreen
 
 
 def tail_log_file(log_path: Path, stop_event: threading.Event) -> None:
@@ -66,6 +67,7 @@ def main() -> None:
         model_path=str(model_path),
         tts_model_path=str(tts_model_path),
         log_path=str(log_path),
+        avatar = AvatarScreen(),
         vad_device_index=17,
         tts_output_device_index=None,
     )

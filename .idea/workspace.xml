@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="Validated end-to-end speech pipeline from VAD to TTS&#10;Confirmed live utterance capture, ASR, LLM, and spoken output&#10;Established working baseline for interruption and UI testing&#10;Shifted remaining focus to runtime refinement and avatar display">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="removed debugging print statements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio_vad/utterance_capture.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio_vad/utterance_capture.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio_vad/vad_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio_vad/vad_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/language/response_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/language/response_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/transcription/transcription_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/transcription/transcription_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/test_final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/test_final_runtime_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/avatar_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/avatar_screen.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +41,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.Python Console.executor": "Run",
+    "Python.final_runtime_pipeline.executor": "Run",
     "Python.plot_training_history.executor": "Run",
     "Python.smoke_test.executor": "Run",
     "Python.test_checkpoint_metadata.executor": "Run",
@@ -81,6 +81,29 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration name="Python Console" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Look_Listen_Speak" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="/Python Console.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="smoke_test" type="PythonConfigurationType" factoryName="Python">
       <module name="Look_Listen_Speak" />
       <option name="ENV_FILES" value="" />
@@ -105,6 +128,15 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.smoke_test" />
+      <item itemvalue="Python.Python Console" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Python Console" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -124,7 +156,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1774494773109</updated>
-      <workItem from="1776794884414" duration="12968000" />
+      <workItem from="1776794884414" duration="14740000" />
     </task>
     <task id="LOCAL-00001" summary="initial structure commit">
       <option name="closed" value="true" />
@@ -470,7 +502,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776840027979</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="removed debugging print statements">
+      <option name="closed" value="true" />
+      <created>1776840754360</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1776840754360</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -488,7 +528,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="End-to-end strongest-model runtime harness with timing and VAD gate" />
     <MESSAGE value="fixed typo in live_features.py where face_center_x was being passed twice instead of both x and y" />
     <MESSAGE value="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py" />
     <MESSAGE value="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint" />
@@ -513,7 +552,8 @@
     <MESSAGE value="Added phase-level ASR instrumentation around transcribe and segment iteration&#10;Simplified smoke-test ASR settings for CPU execution&#10;Improved localisation of transcription-stage stalls" />
     <MESSAGE value="Fixed Qwen chat-template input handling&#10;Read prompt length from input_ids instead of wrapper object&#10;Passed model inputs into generate as keyword arguments&#10;Resolved downstream worker crash before LLM generation" />
     <MESSAGE value="Validated end-to-end speech pipeline from VAD to TTS&#10;Confirmed live utterance capture, ASR, LLM, and spoken output&#10;Established working baseline for interruption and UI testing&#10;Shifted remaining focus to runtime refinement and avatar display" />
-    <option name="LAST_COMMIT_MESSAGE" value="Validated end-to-end speech pipeline from VAD to TTS&#10;Confirmed live utterance capture, ASR, LLM, and spoken output&#10;Established working baseline for interruption and UI testing&#10;Shifted remaining focus to runtime refinement and avatar display" />
+    <MESSAGE value="removed debugging print statements" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed debugging print statements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -534,8 +574,10 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$transcription_service.coverage" NAME="transcription_service Coverage Results" MODIFIED="1776836554228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/transcription" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$tts_test.coverage" NAME="tts_test Coverage Results" MODIFIED="1776752190957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tts" />
-    <SUITE FILE_PATH="coverage/Look_Listen_Speak$smoke_test.coverage" NAME="smoke_test Coverage Results" MODIFIED="1776839874774" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$smoke_test.coverage" NAME="smoke_test Coverage Results" MODIFIED="1776842070954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$Python_Console.coverage" NAME="Python Console Coverage Results" MODIFIED="1776842248435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$plot_training_history.coverage" NAME="plot_training_history Coverage Results" MODIFIED="1776797360069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/turn_prediction" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$test_final_runtime_pipeline.coverage" NAME="test_final_runtime_pipeline Coverage Results" MODIFIED="1776836666453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/runtime" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$final_runtime_pipeline.coverage" NAME="final_runtime_pipeline Coverage Results" MODIFIED="1776842728324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/runtime" />
   </component>
 </project>
