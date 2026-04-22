@@ -120,13 +120,7 @@ class SileroVADService:
         time_since_speech_ms = (now_ns - self._last_speech_time_ns) / 1_000_000.0
         smoothed_speaking = time_since_speech_ms < self.speech_hold_ms
 
-        print(
-            f"[VAD] len(audio_48k)={len(audio_48k)} "
-            f"len(audio_16k)={len(audio_16k)} "
-            f"speech_prob={speech_prob:.3f} "
-            f"speaking_now={speaking_now} "
-            f"smoothed={smoothed_speaking}"
-        )
+
 
         with self._lock:
             self._is_speaking = smoothed_speaking

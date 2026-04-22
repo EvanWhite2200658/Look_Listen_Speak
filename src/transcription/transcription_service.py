@@ -39,16 +39,8 @@ class FasterWhisperTranscriptionService:
             target_sample_rate=self.target_sample_rate,
         )
 
-        print(
-            f"[ASR] duration_s={utterance.duration_s:.3f} "
-            f"source_sr={utterance.sample_rate} "
-            f"target_sr={self.target_sample_rate} "
-            f"input_samples={len(utterance.audio)} "
-            f"resampled_samples={len(audio)} "
-            f"dtype={audio.dtype}"
-        )
 
-        print("[ASR] calling model.transcribe(...)")
+
         segments_iter, info = self.model.transcribe(
             audio,
             language=self.language,
@@ -58,9 +50,7 @@ class FasterWhisperTranscriptionService:
             beam_size=1,
             best_of=1,
         )
-        print("[ASR] model.transcribe(...) returned")
 
-        print("[ASR] consuming segments iterator")
         segments = [
             TranscriptionSegment(
                 start_s=float(segment.start),
@@ -71,7 +61,6 @@ class FasterWhisperTranscriptionService:
             )
             for segment in segments_iter
         ]
-        print(f"[ASR] consumed segments iterator, count={len(segments)}")
 
         text = " ".join(segment.text for segment in segments).strip()
         elapsed = time.perf_counter() - start

@@ -48,10 +48,10 @@ class QwenResponseGenerator:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     def generate_response(self, request: ResponseRequest) -> ResponseResult:
-        print("[LLM] building messages")
+
         messages = self._build_messages(request)
 
-        print("[LLM] applying chat template")
+
         model_inputs = self.tokenizer.apply_chat_template(
             messages,
             tokenize=True,
@@ -62,11 +62,10 @@ class QwenResponseGenerator:
 
         device = next(self.model.parameters()).device
         model_inputs = {k: v.to(device) for k, v in model_inputs.items()}
-        print("[LLM] USING UPDATED GENERATE_RESPONSE")
+
         prompt_tokens = int(model_inputs["input_ids"].shape[-1])
 
-        print("[LLM] generating response")
-        print(f"[LLM] prompt_tokens={prompt_tokens}")
+
         start = time.perf_counter()
         with torch.no_grad():
             generated_ids = self.model.generate(
@@ -78,9 +77,7 @@ class QwenResponseGenerator:
                 pad_token_id=self.tokenizer.eos_token_id,
             )
         elapsed = time.perf_counter() - start
-        print(f"[LLM] generation finished in {elapsed:.2f}s")
 
-        print("[LLM] decoding response")
         new_tokens = generated_ids[0][model_inputs["input_ids"].shape[-1]:]
         text = self.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
 
