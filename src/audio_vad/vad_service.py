@@ -36,6 +36,7 @@ class SileroVADService:
             block_duration_ms: int = 30,
             speech_threshold: float = 0.5,
             min_silence_duration_ms: int = 150,
+            speech_hold_ms: int = 200,
     ) -> None:
         self.device_index = device_index
         self.input_sample_rate = input_sample_rate
@@ -43,6 +44,7 @@ class SileroVADService:
         self.block_duration_ms = block_duration_ms
         self.speech_threshold = speech_threshold
         self.min_silence_duration_ms = min_silence_duration_ms
+        self.speech_hold_ms = speech_hold_ms
 
         self._model = load_silero_vad()
         self._stream: Optional[sd.InputStream] = None
@@ -51,6 +53,7 @@ class SileroVADService:
 
         self._is_running = False
         self._is_speaking = False
+        self._last_speech_time_ns = 0
         self._input_block_size = int(self.input_sample_rate * self.block_duration_ms / 1000)
 
     def start(self) -> None:
@@ -110,8 +113,15 @@ class SileroVADService:
         )
 
         speaking_now = len(speech_dicts) > 0
+        now_ns = time.time_ns()
+
+        if speaking_now:
+            self._last_speech_time_ns = now_ns
+
+        time_since_speech_ms = (now_ns - self._last_speech_time_ns) / 1_000_000.0
+        smoothed_speaking = time_since_speech_ms < self.speech_hold_ms
         with self._lock:
-            self._is_speaking = speaking_now
+            self._is_speaking = smoothed_speaking
             subscribers = list(self._subscribers)
 
         for subscriber in subscribers:

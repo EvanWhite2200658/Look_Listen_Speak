@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 import numpy as np
+from src.runtime.runtime_logging import RuntimeLogger
 
 
 @dataclass(frozen=True)
@@ -32,11 +33,13 @@ class UtteranceCapture:
             silence_hold_ms: int = 300,
             min_utterance_ms: int = 200,
             max_pre_speech_ms: int = 150,
+            log_path: str = "logs/runtime_events.jsonl",
     ) -> None:
         self.sample_rate = sample_rate
         self.silence_hold_ms = silence_hold_ms
         self.min_utterance_ms = min_utterance_ms
         self.max_pre_speech_ms = max_pre_speech_ms
+        self.logger = RuntimeLogger(log_path)
 
         self._lock = threading.Lock()
         self._pre_speech_chunks: list[np.ndarray] = []
@@ -53,6 +56,10 @@ class UtteranceCapture:
     def push_audio(self, chunk: np.ndarray, is_speaking: bool, timestamp_ns: Optional[int] = None) -> None:
         ts = timestamp_ns if timestamp_ns is not None else time.time_ns()
         mono = np.asarray(chunk, dtype=np.float32).reshape(-1)
+        self.logger.log(
+            "utterance_capture_progress",
+            is_speaking=is_speaking,
+        )
         if mono.size == 0:
             return
 

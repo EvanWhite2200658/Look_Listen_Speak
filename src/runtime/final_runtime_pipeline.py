@@ -184,6 +184,12 @@ class FinalRuntimePipeline:
             is_speaking=is_speaking,
             timestamp_ns=timestamp_ns,
         )
+        
+        self.logger.log(
+            "audio_chunk_received",
+            chunk_size=len(chunk_48k),
+            is_speaking=is_speaking,
+        )
 
         utterance = self.utterance_capture.pop_completed_utterance()
         if utterance is None:

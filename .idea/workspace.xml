@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- created plots from training histories">
-      <change afterPath="$PROJECT_DIR$/src/runtime/test_final_runtime_pipeline.py" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added final runtime smoke test entry point&#10;- added live log tailing for end-to-end integration debugging&#10;- structured smoke test around control-path and downstream-path milestones&#10;- prepared full pipeline validation before evaluation runs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gaze/patched_svr_calibration.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gaze/patched_svr_calibration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/inference_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/turn_prediction/runtime_hcs_adapter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/turn_prediction/runtime_hcs_adapter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio_vad/utterance_capture.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio_vad/utterance_capture.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio_vad/vad_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio_vad/vad_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +94,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1774494773109</updated>
-      <workItem from="1776794884414" duration="4853000" />
+      <workItem from="1776794884414" duration="6214000" />
     </task>
     <task id="LOCAL-00001" summary="initial structure commit">
       <option name="closed" value="true" />
@@ -393,7 +392,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776797867476</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="- added final runtime smoke test entry point&#10;- added live log tailing for end-to-end integration debugging&#10;- structured smoke test around control-path and downstream-path milestones&#10;- prepared full pipeline validation before evaluation runs">
+      <option name="closed" value="true" />
+      <created>1776832112789</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1776832112789</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -411,7 +418,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- added overlap-feature training dataset path from existing labelled CSV data&#10;- validated 30x24 sequence generation for deployment-safe model training&#10;- established final training input contract using existing dataset only" />
     <MESSAGE value="Runtime bridge from live gaze windows to strongest dataset feature space" />
     <MESSAGE value="Use strongest checkpoint with engineered live runtime sequence" />
     <MESSAGE value="added placeholder hook to calculate eye_x and eye_y in feature bridge" />
@@ -436,7 +442,8 @@
     <MESSAGE value="- added final hybrid runtime pipeline design&#10;- added structured runtime logging and resource monitoring&#10;- added avatar UI driven by runtime speaking state&#10;- expanded instrumentation across gaze, turn_prediction, timing, ASR, LLM, and TTS" />
     <MESSAGE value="- added event-based response permission coordination&#10;- kept response gaze permission-only&#10;- delayed TTS playback until control path grants permission&#10;- added VAD-driven suppression and interruption of speech output" />
     <MESSAGE value="- created plots from training histories" />
-    <option name="LAST_COMMIT_MESSAGE" value="- created plots from training histories" />
+    <MESSAGE value="- added final runtime smoke test entry point&#10;- added live log tailing for end-to-end integration debugging&#10;- structured smoke test around control-path and downstream-path milestones&#10;- prepared full pipeline validation before evaluation runs" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added final runtime smoke test entry point&#10;- added live log tailing for end-to-end integration debugging&#10;- structured smoke test around control-path and downstream-path milestones&#10;- prepared full pipeline validation before evaluation runs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
