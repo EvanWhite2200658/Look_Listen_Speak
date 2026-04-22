@@ -64,6 +64,11 @@ class UtteranceCapture:
             return
 
         with self._lock:
+            print(
+                f"[UTT] ts={ts} in_speech={self._in_speech} "
+                f"is_speaking={is_speaking} "
+                f"last_speech_ns={self._last_speech_ns}"
+            )
             if not self._in_speech:
                 self._append_pre_speech(mono)
 
@@ -79,7 +84,12 @@ class UtteranceCapture:
             if self._in_speech:
                 self._active_chunks.append(mono)
                 if self._last_speech_ns is not None and (ts - self._last_speech_ns) >= self._silence_hold_ns:
+                    print(
+                        f"[UTT] attempting finalise: "
+                        f"silence_ms={(ts - self._last_speech_ns) / 1_000_000.0:.1f}"
+                    )
                     self._finalise(ts)
+
 
 
     def pop_completed_utterance(self) -> Optional[CapturedUtterance]:
@@ -101,7 +111,12 @@ class UtteranceCapture:
             return
 
         audio = np.concatenate(self._active_chunks, axis=0).astype(np.float32, copy=False)
+        print(
+            f"[UTT] finalise candidate: samples={audio.size} "
+            f"duration_s={audio.size / float(self.sample_rate):.3f}"
+        )
         if audio.size < self._min_utterance_samples:
+            print("[UTT] discarded: utterance too short")
             self._reset_state()
             return
 

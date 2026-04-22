@@ -184,7 +184,7 @@ class FinalRuntimePipeline:
             is_speaking=is_speaking,
             timestamp_ns=timestamp_ns,
         )
-        
+
         self.logger.log(
             "audio_chunk_received",
             chunk_size=len(chunk_48k),
@@ -210,65 +210,81 @@ class FinalRuntimePipeline:
             except queue.Empty:
                 continue
 
-            self.avatar.set_mode("thinking")
+            try:
+                self.avatar.set_mode("thinking")
 
-            self.logger.log(
-                "utterance_received",
-                duration_s=utterance.duration_s,
-                start_time_ns=utterance.start_time_ns,
-                end_time_ns=utterance.end_time_ns,
-            )
+                self.logger.log(
+                    "utterance_received",
+                    duration_s=utterance.duration_s,
+                    start_time_ns=utterance.start_time_ns,
+                    end_time_ns=utterance.end_time_ns,
+                )
 
-            transcription_start = time.perf_counter()
-            transcription = self.transcription.transcribe_utterance(utterance)
-            self.logger.log(
-                "transcription_complete",
-                text=transcription.text,
-                language=transcription.language,
-                duration_s=transcription.duration_s,
-                processing_time_s=time.perf_counter() - transcription_start,
-            )
+                transcription_start = time.perf_counter()
+                self.logger.log(
+                    "transcription_start",
+                    duration_s=utterance.duration_s,
+                    sample_rate=utterance.sample_rate,
+                    sample_count=len(utterance.audio),
+                )
+                transcription = self.transcription.transcribe_utterance(utterance)
+                self.logger.log(
+                    "transcription_complete",
+                    text=transcription.text,
+                    language=transcription.language,
+                    duration_s=transcription.duration_s,
+                    processing_time_s=time.perf_counter() - transcription_start,
+                )
 
-            response_start = time.perf_counter()
-            response = self.response_generator.generate_response(
-                ResponseRequest(user_text=transcription.text)
-            )
-            self.logger.log(
-                "llm_response_complete",
-                text=response.text,
-                prompt_tokens=response.prompt_tokens,
-                generated_tokens=response.generated_tokens,
-                generation_time_s=time.perf_counter() - response_start,
-            )
+                response_start = time.perf_counter()
+                response = self.response_generator.generate_response(
+                    ResponseRequest(user_text=transcription.text)
+                )
+                self.logger.log(
+                    "llm_response_complete",
+                    text=response.text,
+                    prompt_tokens=response.prompt_tokens,
+                    generated_tokens=response.generated_tokens,
+                    generation_time_s=time.perf_counter() - response_start,
+                )
 
-            self.logger.log("waiting_for_response_permission")
-            while not self._stop_event.is_set():
-                if self._response_permission_event.is_set():
+                self.logger.log("waiting_for_response_permission")
+                while not self._stop_event.is_set():
+                    if self._response_permission_event.is_set():
+                        break
+                    time.sleep(0.01)
+
+                if self._stop_event.is_set():
+                    self._downstream_queue.task_done()
                     break
-                time.sleep(0.01)
 
-            if self._stop_event.is_set():
+                if self.vad.user_is_speaking():
+                    self.logger.log("tts_suppressed_by_vad_before_start")
+                    self._downstream_queue.task_done()
+                    continue
+
+                self.avatar.set_mode("speaking")
+                synthesis_start = time.perf_counter()
+                synthesis = self.tts.speak(response.text)
+                self.logger.log(
+                    "tts_complete",
+                    playback_started=synthesis.playback_started,
+                    playback_stopped_early=synthesis.playback_stopped_early,
+                    synthesis_time_s=time.perf_counter() - synthesis_start,
+                    sample_rate=synthesis.sample_rate,
+                )
+
+                self.avatar.set_mode("listening")
+
+            except Exception as e:
+                self.logger.log(
+                    "downstream_worker_error",
+                    error_type=type(e).__name__,
+                    error_message=str(e),
+                )
+                self.avatar.set_mode("listening")
+            finally:
                 self._downstream_queue.task_done()
-                break
-
-            if self.vad.user_is_speaking():
-                self.logger.log("tts_suppressed_by_vad_before_start")
-                self._downstream_queue.task_done()
-                continue
-
-            self.avatar.set_mode("speaking")
-            synthesis_start = time.perf_counter()
-            synthesis = self.tts.speak(response.text)
-            self.logger.log(
-                "tts_complete",
-                playback_started=synthesis.playback_started,
-                playback_stopped_early=synthesis.playback_stopped_early,
-                synthesis_time_s=time.perf_counter() - synthesis_start,
-                sample_rate=synthesis.sample_rate,
-            )
-
-            self.avatar.set_mode("listening")
-            self._downstream_queue.task_done()
 
 
 def main() -> None:

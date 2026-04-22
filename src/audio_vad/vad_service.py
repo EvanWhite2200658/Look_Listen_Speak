@@ -10,7 +10,7 @@ from typing import Optional
 import numpy as np
 import sounddevice as sd
 import torch
-from silero_vad import load_silero_vad, get_speech_timestamps
+from silero_vad import load_silero_vad
 
 AudioSubscriber = Callable[[np.ndarray, bool, int], None]
 
@@ -33,17 +33,15 @@ class SileroVADService:
             device_index: int | None = None,
             input_sample_rate: int = 48000,
             model_sample_rate: int = 16000,
-            block_duration_ms: int = 30,
-            speech_threshold: float = 0.5,
-            min_silence_duration_ms: int = 150,
-            speech_hold_ms: int = 200,
+            block_duration_ms: int = 32,
+            speech_threshold: float = 0.35,
+            speech_hold_ms: int = 250,
     ) -> None:
         self.device_index = device_index
         self.input_sample_rate = input_sample_rate
         self.model_sample_rate = model_sample_rate
         self.block_duration_ms = block_duration_ms
         self.speech_threshold = speech_threshold
-        self.min_silence_duration_ms = min_silence_duration_ms
         self.speech_hold_ms = speech_hold_ms
 
         self._model = load_silero_vad()
@@ -99,20 +97,21 @@ class SileroVADService:
 
         timestamp_ns = time.time_ns()
         audio_48k = np.squeeze(np.copy(indata), axis=1).astype(np.float32, copy=False)
+        if audio_48k.size == 0:
+            return
+
         audio_16k = self._resample_to_16k(audio_48k)
         if audio_16k.size == 0:
             return
 
-        chunk = torch.from_numpy(audio_16k).float()
-        speech_dicts = get_speech_timestamps(
-            chunk,
-            self._model,
-            threshold=self.speech_threshold,
-            sampling_rate=self.model_sample_rate,
-            min_silence_duration_ms=self.min_silence_duration_ms,
-        )
+        audio_16k = self._ensure_model_block_size(audio_16k)
 
-        speaking_now = len(speech_dicts) > 0
+        chunk = torch.from_numpy(audio_16k).float()
+
+        with torch.no_grad():
+            speech_prob = float(self._model(chunk, self.model_sample_rate).item())
+
+        speaking_now = speech_prob >= self.speech_threshold
         now_ns = time.time_ns()
 
         if speaking_now:
@@ -120,17 +119,37 @@ class SileroVADService:
 
         time_since_speech_ms = (now_ns - self._last_speech_time_ns) / 1_000_000.0
         smoothed_speaking = time_since_speech_ms < self.speech_hold_ms
+
+        print(
+            f"[VAD] len(audio_48k)={len(audio_48k)} "
+            f"len(audio_16k)={len(audio_16k)} "
+            f"speech_prob={speech_prob:.3f} "
+            f"speaking_now={speaking_now} "
+            f"smoothed={smoothed_speaking}"
+        )
+
         with self._lock:
             self._is_speaking = smoothed_speaking
             subscribers = list(self._subscribers)
 
         for subscriber in subscribers:
             try:
-                subscriber(audio_48k, speaking_now, timestamp_ns)
+                subscriber(audio_48k, smoothed_speaking, timestamp_ns)
             except Exception:
-                # keep the audio callback resilient; logging can be added outside
-                # the callback if needed
                 pass
+
+    def _ensure_model_block_size(self, audio_16k: np.ndarray) -> np.ndarray:
+        target_size = int(self.model_sample_rate * self.block_duration_ms / 1000)
+
+        if audio_16k.size == target_size:
+            return audio_16k
+
+        if audio_16k.size > target_size:
+            return audio_16k[:target_size]
+
+        padded = np.zeros(target_size, dtype=np.float32)
+        padded[:audio_16k.size] = audio_16k
+        return padded
 
     def _resample_to_16k(self, audio: np.ndarray) -> np.ndarray:
         if self.input_sample_rate == self.model_sample_rate:
