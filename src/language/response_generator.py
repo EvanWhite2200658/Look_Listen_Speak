@@ -21,13 +21,13 @@ class QwenResponseGenerator:
 
     def __init__(
         self,
-        model_name: str = "Qwen/Qwen2.5-3B-Instruct",
+        model_name: str = "Qwen/Qwen2.5-0.5B-Instruct",
         device_map: str = "auto",
         torch_dtype: str = "auto",
-        max_new_tokens: int = 128,
-        temperature: float = 0.7,
-        top_p: float = 0.9,
-        do_sample: bool = True,
+        max_new_tokens: int = 16,
+        temperature: float = 0.0,
+        top_p: float = 1.0,
+        do_sample: bool = False,
         default_system_prompt: str = (
             "You are a helpful conversational assistant. "
             "Respond naturally and briefly in spoken dialogue style."
@@ -62,10 +62,11 @@ class QwenResponseGenerator:
 
         device = next(self.model.parameters()).device
         model_inputs = {k: v.to(device) for k, v in model_inputs.items()}
-
+        print("[LLM] USING UPDATED GENERATE_RESPONSE")
         prompt_tokens = int(model_inputs["input_ids"].shape[-1])
 
         print("[LLM] generating response")
+        print(f"[LLM] prompt_tokens={prompt_tokens}")
         start = time.perf_counter()
         with torch.no_grad():
             generated_ids = self.model.generate(
@@ -77,6 +78,7 @@ class QwenResponseGenerator:
                 pad_token_id=self.tokenizer.eos_token_id,
             )
         elapsed = time.perf_counter() - start
+        print(f"[LLM] generation finished in {elapsed:.2f}s")
 
         print("[LLM] decoding response")
         new_tokens = generated_ids[0][model_inputs["input_ids"].shape[-1]:]

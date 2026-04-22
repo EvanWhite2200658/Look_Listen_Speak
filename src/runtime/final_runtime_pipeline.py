@@ -237,6 +237,7 @@ class FinalRuntimePipeline:
                 )
 
                 response_start = time.perf_counter()
+                self.logger.log("llm_response_start")
                 response = self.response_generator.generate_response(
                     ResponseRequest(user_text=transcription.text)
                 )
