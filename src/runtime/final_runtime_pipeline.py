@@ -52,7 +52,7 @@ class FinalRuntimePipeline:
         self.utterance_capture = UtteranceCapture(sample_rate=self.vad.input_sample_rate)
         self.vad.add_audio_subscriber(self._handle_audio_chunk)
 
-        self.transcription = FasterWhisperTranscriptionService(model_size="small", device="cpu")
+        self.transcription = FasterWhisperTranscriptionService(model_size="tiny", device="cpu", compute_type="int8", language="en")
         self.response_generator = QwenResponseGenerator()
 
         self._downstream_queue: queue.Queue[CapturedUtterance] = queue.Queue()

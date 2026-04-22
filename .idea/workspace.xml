@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added temporal smoothing to VAD speaking state&#10;- stabilised speech detection across short silences&#10;- enabled utterance finalisation in capture pipeline&#10;- fixed missing downstream response trigger">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="- added temporal smoothing to VAD speaking state&#10;- stabilised speech detection across short silences&#10;- enabled utterance finalisation in capture pipeline&#10;- fixed missing downstream response trigger&#10;Resampled live utterance audio to 16 kHz before ASR&#10;Added audio preparation inside transcription service&#10;Kept microphone capture unchanged at 48 kHz&#10;Aligned faster-whisper input with expected ndarray format">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio_vad/utterance_capture.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio_vad/utterance_capture.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/audio_vad/vad_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio_vad/vad_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/transcription/transcription_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/transcription/transcription_service.py" afterDir="false" />
     </list>
@@ -43,6 +41,7 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.plot_training_history.executor": "Run",
+    "Python.smoke_test.executor": "Run",
     "Python.test_checkpoint_metadata.executor": "Run",
     "Python.test_final_runtime_pipeline.executor": "Run",
     "Python.test_gaze_wrapper.executor": "Run",
@@ -59,6 +58,7 @@
     "Python.train.executor": "Run",
     "Python.train_live_model.executor": "Run",
     "Python.train_overlap_model.executor": "Run",
+    "Python.transcription_service.executor": "Run",
     "Python.tts_test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -76,6 +76,32 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\aweso\PycharmProjects\Look_Listen_Speak\deprecated_files" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="smoke_test" type="PythonConfigurationType" factoryName="Python">
+      <module name="Look_Listen_Speak" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.11 (Look_Listen_Speak)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="src/runtime/test_final_runtime_pipeline.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -95,7 +121,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1774494773109</updated>
-      <workItem from="1776794884414" duration="9236000" />
+      <workItem from="1776794884414" duration="10059000" />
     </task>
     <task id="LOCAL-00001" summary="initial structure commit">
       <option name="closed" value="true" />
@@ -409,7 +435,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776833662098</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="- added temporal smoothing to VAD speaking state&#10;- stabilised speech detection across short silences&#10;- enabled utterance finalisation in capture pipeline&#10;- fixed missing downstream response trigger&#10;Resampled live utterance audio to 16 kHz before ASR&#10;Added audio preparation inside transcription service&#10;Kept microphone capture unchanged at 48 kHz&#10;Aligned faster-whisper input with expected ndarray format">
+      <option name="closed" value="true" />
+      <created>1776836548653</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1776836548653</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -427,7 +461,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Use strongest checkpoint with engineered live runtime sequence" />
     <MESSAGE value="added placeholder hook to calculate eye_x and eye_y in feature bridge" />
     <MESSAGE value="Confidence-informed timing controller for system response delay" />
     <MESSAGE value="Integrate Silero VAD override and Piper TTS response gate" />
@@ -452,7 +485,8 @@
     <MESSAGE value="- created plots from training histories" />
     <MESSAGE value="- added final runtime smoke test entry point&#10;- added live log tailing for end-to-end integration debugging&#10;- structured smoke test around control-path and downstream-path milestones&#10;- prepared full pipeline validation before evaluation runs" />
     <MESSAGE value="- added temporal smoothing to VAD speaking state&#10;- stabilised speech detection across short silences&#10;- enabled utterance finalisation in capture pipeline&#10;- fixed missing downstream response trigger" />
-    <option name="LAST_COMMIT_MESSAGE" value="- added temporal smoothing to VAD speaking state&#10;- stabilised speech detection across short silences&#10;- enabled utterance finalisation in capture pipeline&#10;- fixed missing downstream response trigger" />
+    <MESSAGE value="- added temporal smoothing to VAD speaking state&#10;- stabilised speech detection across short silences&#10;- enabled utterance finalisation in capture pipeline&#10;- fixed missing downstream response trigger&#10;Resampled live utterance audio to 16 kHz before ASR&#10;Added audio preparation inside transcription service&#10;Kept microphone capture unchanged at 48 kHz&#10;Aligned faster-whisper input with expected ndarray format" />
+    <option name="LAST_COMMIT_MESSAGE" value="- added temporal smoothing to VAD speaking state&#10;- stabilised speech detection across short silences&#10;- enabled utterance finalisation in capture pipeline&#10;- fixed missing downstream response trigger&#10;Resampled live utterance audio to 16 kHz before ASR&#10;Added audio preparation inside transcription service&#10;Kept microphone capture unchanged at 48 kHz&#10;Aligned faster-whisper input with expected ndarray format" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -471,8 +505,10 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$transcription_service.coverage" NAME="transcription_service Coverage Results" MODIFIED="1776836554228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/transcription" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$tts_test.coverage" NAME="tts_test Coverage Results" MODIFIED="1776752190957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tts" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$smoke_test.coverage" NAME="smoke_test Coverage Results" MODIFIED="1776837571481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$plot_training_history.coverage" NAME="plot_training_history Coverage Results" MODIFIED="1776797360069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/turn_prediction" />
-    <SUITE FILE_PATH="coverage/Look_Listen_Speak$test_final_runtime_pipeline.coverage" NAME="test_final_runtime_pipeline Coverage Results" MODIFIED="1776836023747" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/runtime" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$test_final_runtime_pipeline.coverage" NAME="test_final_runtime_pipeline Coverage Results" MODIFIED="1776836666453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/runtime" />
   </component>
 </project>
