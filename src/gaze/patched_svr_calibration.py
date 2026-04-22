@@ -46,7 +46,7 @@ class PatchedSVRCalibration(SVRCalibration):
             try:
                 data = json.loads(self.metadata_path.read_text(encoding="utf-8"))
                 self.expected_feature_count = int(data["feature_count"])
-                print(f"[PatchedSVRCalibration] loaded expected_feature_count={self.expected_feature_count}")
+
             except Exception as exc:
                 print(f"[PatchedSVRCalibration] metadata load warning: {exc}")
 
@@ -81,8 +81,7 @@ class PatchedSVRCalibration(SVRCalibration):
         features = np.asarray(features, dtype=np.float32)
         labels = np.asarray(labels, dtype=np.float32)
 
-        print(f"[PatchedSVRCalibration] incoming features shape: {features.shape}")
-        print(f"[PatchedSVRCalibration] incoming labels shape: {labels.shape}")
+
 
         if features.ndim == 3:
             num_targets, samples_per_target, num_features = features.shape
@@ -158,7 +157,6 @@ class PatchedSVRCalibration(SVRCalibration):
 
     def predict(self, features, estimated_coordinate):
         features = np.asarray(features, dtype=np.float32)
-        print(f"[PatchedSVRCalibration] predict incoming shape: {features.shape}")
 
         if features.ndim == 1:
             actual_feature_count = int(features.shape[0])
@@ -173,10 +171,7 @@ class PatchedSVRCalibration(SVRCalibration):
             )
             return False, estimated_coordinate
 
-        print(
-            f"[PatchedSVRCalibration] predict feature count={actual_feature_count}, "
-            f"expected={self.expected_feature_count}"
-        )
+
 
         if not self.has_calibrated:
             print("[PatchedSVRCalibration] no calibrated model available. Returning estimated coordinate.")

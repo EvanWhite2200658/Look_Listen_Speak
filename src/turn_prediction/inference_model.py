@@ -95,7 +95,7 @@ class TrainedTurnModel:
 
         with torch.no_grad():
             logits = self.model(x)
-            print("logit:", float(logits.item()))
+
             probability = float(torch.sigmoid(logits).item())
 
         return TurnPrediction(

@@ -170,7 +170,7 @@ def _best_gaze_vector(sample: GazeSample) -> np.ndarray:
 
     dx = (gx - cx) / max(scale, 1e-6)
     dy = (gy - cy) / max(scale, 1e-6)
-    print(f"dx={dx:.4f}, dy={dy:.4f}")
+
     vec = np.array([dx, -dy, 1.0], dtype=np.float32)
     return vec / max(np.linalg.norm(vec), 1e-6)
 
