@@ -9,6 +9,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from src.language.schemas import ResponseRequest, ResponseResult
 
+
 class QwenResponseGenerator:
     """
     Modular LLM response generator using Qwen2.5-3B-Instruct.
@@ -19,18 +20,18 @@ class QwenResponseGenerator:
     """
 
     def __init__(
-            self,
-            model_name: str = "Qwen/Qwen2.5-3B-Instruct",
-            device_map: str = "auto",
-            torch_dtype: str = "auto",
-            max_new_tokens: int = 128,
-            temperature: float = 0.7,
-            top_p: float = 0.9,
-            do_sample: bool = True,
-            default_system_prompt: str = (
-                "You are a helpful conversational assistant. "
-                "Respond naturally and briefly in spoken dialogue style."
-            ),
+        self,
+        model_name: str = "Qwen/Qwen2.5-3B-Instruct",
+        device_map: str = "auto",
+        torch_dtype: str = "auto",
+        max_new_tokens: int = 128,
+        temperature: float = 0.7,
+        top_p: float = 0.9,
+        do_sample: bool = True,
+        default_system_prompt: str = (
+            "You are a helpful conversational assistant. "
+            "Respond naturally and briefly in spoken dialogue style."
+        ),
     ) -> None:
         self.model_name = model_name
         self.max_new_tokens = max_new_tokens
@@ -47,21 +48,28 @@ class QwenResponseGenerator:
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     def generate_response(self, request: ResponseRequest) -> ResponseResult:
+        print("[LLM] building messages")
         messages = self._build_messages(request)
 
+        print("[LLM] applying chat template")
         model_inputs = self.tokenizer.apply_chat_template(
             messages,
             tokenize=True,
             add_generation_prompt=True,
             return_tensors="pt",
-        ).to(self.model.device)
+            return_dict=True,
+        )
 
-        prompt_tokens = int(model_inputs.shape[-1])
+        device = next(self.model.parameters()).device
+        model_inputs = {k: v.to(device) for k, v in model_inputs.items()}
 
+        prompt_tokens = int(model_inputs["input_ids"].shape[-1])
+
+        print("[LLM] generating response")
         start = time.perf_counter()
         with torch.no_grad():
             generated_ids = self.model.generate(
-                model_inputs,
+                **model_inputs,
                 max_new_tokens=self.max_new_tokens,
                 do_sample=self.do_sample,
                 temperature=self.temperature,
@@ -70,7 +78,8 @@ class QwenResponseGenerator:
             )
         elapsed = time.perf_counter() - start
 
-        new_tokens = generated_ids[0][model_inputs.shape[-1]:]
+        print("[LLM] decoding response")
+        new_tokens = generated_ids[0][model_inputs["input_ids"].shape[-1]:]
         text = self.tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
 
         return ResponseResult(

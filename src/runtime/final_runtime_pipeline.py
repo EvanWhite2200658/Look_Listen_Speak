@@ -276,12 +276,18 @@ class FinalRuntimePipeline:
 
                 self.avatar.set_mode("listening")
 
-            except Exception as e:
+
+            except Exception as exc:
+                import traceback
+
                 self.logger.log(
                     "downstream_worker_error",
-                    error_type=type(e).__name__,
-                    error_message=str(e),
+                    error_type=type(exc).__name__,
+                    error_message=str(exc),
+                    error_repr=repr(exc),
+                    traceback=traceback.format_exc(),
                 )
+
                 self.avatar.set_mode("listening")
             finally:
                 self._downstream_queue.task_done()
