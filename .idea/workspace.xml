@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="removed debugging print statements">
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="final commit (ignoring ALL the bugs &lt;3)">
+      <change afterPath="$PROJECT_DIR$/look_listen_speak.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_04_2026_22_46_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_14_04_2026_22_46_[Changes]/shelved.patch" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/test_final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/test_final_runtime_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ui/avatar_screen.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/avatar_screen.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -156,7 +157,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1774494773109</updated>
-      <workItem from="1776794884414" duration="14740000" />
+      <workItem from="1776794884414" duration="19698000" />
     </task>
     <task id="LOCAL-00001" summary="initial structure commit">
       <option name="closed" value="true" />
@@ -510,11 +511,30 @@
       <option name="project" value="LOCAL" />
       <updated>1776840754360</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="final commit (ignoring ALL the bugs &lt;3)">
+      <option name="closed" value="true" />
+      <created>1776842977555</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1776842977555</updated>
+    </task>
+    <task id="LOCAL-00046" summary="final commit (ignoring ALL the bugs &lt;3)">
+      <option name="closed" value="true" />
+      <created>1776842983900</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1776842983900</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.spec" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -528,7 +548,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed typo in live_features.py where face_center_x was being passed twice instead of both x and y" />
     <MESSAGE value="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py" />
     <MESSAGE value="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint" />
     <MESSAGE value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
@@ -553,7 +572,8 @@
     <MESSAGE value="Fixed Qwen chat-template input handling&#10;Read prompt length from input_ids instead of wrapper object&#10;Passed model inputs into generate as keyword arguments&#10;Resolved downstream worker crash before LLM generation" />
     <MESSAGE value="Validated end-to-end speech pipeline from VAD to TTS&#10;Confirmed live utterance capture, ASR, LLM, and spoken output&#10;Established working baseline for interruption and UI testing&#10;Shifted remaining focus to runtime refinement and avatar display" />
     <MESSAGE value="removed debugging print statements" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed debugging print statements" />
+    <MESSAGE value="final commit (ignoring ALL the bugs &lt;3)" />
+    <option name="LAST_COMMIT_MESSAGE" value="final commit (ignoring ALL the bugs &lt;3)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

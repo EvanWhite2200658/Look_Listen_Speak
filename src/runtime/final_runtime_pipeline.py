@@ -5,6 +5,7 @@ import threading
 import time
 from pathlib import Path
 from typing import Optional
+import sys
 
 import numpy as np
 
@@ -22,6 +23,11 @@ from src.tts.piper_tts_service import PiperTTSService
 from src.turn_prediction.inference_model import TrainedTurnModel
 from src.turn_prediction.schemas import GazeWindow
 from src.ui.avatar_screen import AvatarScreen
+
+def resource_path(relative_path: str) -> Path:
+    if hasattr(sys, "_MEIPASS"):
+        return Path(sys._MEIPASS) / relative_path
+    return Path(".").resolve() / relative_path
 
 
 class FinalRuntimePipeline:
@@ -332,25 +338,14 @@ class FinalRuntimePipeline:
 
 
 def main() -> None:
-    model_path = (
-        Path(__file__).resolve().parents[1]
-        / "turn_prediction"
-        / "artifacts"
-        / "turn_prediction_runtime_compatible"
-        / "best_model.pt"
-    )
-    tts_model_path = str(
-        Path(__file__).resolve().parents[2]
-        / "models"
-        / "tts"
-        / "en_GB-alba-medium.onnx"
-    )
+    model_path = resource_path("src/turn_prediction/artifacts/turn_prediction_runtime_compatible/best_model.pt")
+    tts_model_path = resource_path("models/tts/en_GB-alba-medium.onnx")
 
     avatar = AvatarScreen()
 
     runtime = FinalRuntimePipeline(
         model_path=str(model_path),
-        tts_model_path=tts_model_path,
+        tts_model_path=str(tts_model_path),
         avatar=avatar,
         vad_device_index=1,
         tts_output_device_index=None,
