@@ -61,15 +61,16 @@ def main() -> None:
         / "en_GB-alba-medium.onnx"
     )
 
-    log_path = Path(__file__).resolve().parents[2] / "logs" / "runtime_smoke_test.jsonl"
+    log_path = Path(__file__) / "logs" / "runtime_events.jsonl"
 
     runtime = FinalRuntimePipeline(
         model_path=str(model_path),
         tts_model_path=str(tts_model_path),
         log_path=str(log_path),
         avatar = AvatarScreen(),
-        vad_device_index=17,
+        vad_device_index=None,
         tts_output_device_index=None,
+        mode="baseline",
     )
 
     stop_tail = threading.Event()

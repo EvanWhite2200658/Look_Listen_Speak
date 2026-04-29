@@ -54,12 +54,53 @@ class SileroVADService:
         self._last_speech_time_ns = 0
         self._input_block_size = int(self.input_sample_rate * self.block_duration_ms / 1000)
 
+    def _resolve_input_device(self, preferred_index: int | None) -> int:
+        devices = sd.query_devices()
+
+        if preferred_index is not None:
+            info = sd.query_devices(preferred_index)
+            if int(info["max_input_channels"]) > 0:
+                return preferred_index
+
+        default_input = sd.default.device[0]
+        if default_input is not None and default_input >= 0:
+            info = sd.query_devices(default_input)
+            if int(info["max_input_channels"]) > 0:
+                return int(default_input)
+
+        preferred_terms = ["microphone", "mic"]
+        for term in preferred_terms:
+            for idx, info in enumerate(devices):
+                if int(info["max_input_channels"]) > 0 and term in info["name"].lower():
+                    return idx
+
+        for idx, info in enumerate(devices):
+            if int(info["max_input_channels"]) > 0:
+                return idx
+
+        raise RuntimeError("No valid input audio device found")
+
     def start(self) -> None:
         if self._is_running:
             return
 
+        device_index = self._resolve_input_device(self.device_index)
+        device_info = sd.query_devices(device_index, "input")
+
+        max_channels = int(device_info["max_input_channels"])
+        if max_channels < 1:
+            raise RuntimeError(f"Selected input device has no input channels: {device_info}")
+
+        self.input_sample_rate = int(device_info["default_samplerate"])
+        self._input_block_size = int(self.input_sample_rate * self.block_duration_ms / 1000)
+
+        print(
+            f"[AUDIO] Opening input device {device_index}: {device_info['name']} "
+            f"channels=1 sample_rate={self.input_sample_rate}"
+        )
+
         self._stream = sd.InputStream(
-            device=self.device_index,
+            device=device_index,
             samplerate=self.input_sample_rate,
             channels=1,
             dtype="float32",

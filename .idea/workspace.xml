@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="final commit (ignoring ALL the bugs &lt;3)">
-      <change afterPath="$PROJECT_DIR$/look_listen_speak.spec" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_14_04_2026_22_46_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_14_04_2026_22_46_[Changes]/shelved.patch" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/runtime/analyse_response_timing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/audio_vad/vad_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/audio_vad/vad_service.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/test_final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/test_final_runtime_pipeline.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +43,7 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.Python Console.executor": "Run",
+    "Python.analyse_response_timing.executor": "Run",
     "Python.final_runtime_pipeline.executor": "Run",
     "Python.plot_training_history.executor": "Run",
     "Python.smoke_test.executor": "Run",
@@ -66,7 +67,7 @@
     "Python.tts_test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "final-integration",
+    "git-widget-placeholder": "data-collection",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -541,7 +542,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -594,8 +607,9 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$transcription_service.coverage" NAME="transcription_service Coverage Results" MODIFIED="1776836554228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/transcription" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$tts_test.coverage" NAME="tts_test Coverage Results" MODIFIED="1776752190957" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tts" />
-    <SUITE FILE_PATH="coverage/Look_Listen_Speak$smoke_test.coverage" NAME="smoke_test Coverage Results" MODIFIED="1776842070954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$smoke_test.coverage" NAME="smoke_test Coverage Results" MODIFIED="1777441480823" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$Python_Console.coverage" NAME="Python Console Coverage Results" MODIFIED="1776842248435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/Look_Listen_Speak$analyse_response_timing.coverage" NAME="analyse_response_timing Coverage Results" MODIFIED="1777441587675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/runtime" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$plot_training_history.coverage" NAME="plot_training_history Coverage Results" MODIFIED="1776797360069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/turn_prediction" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$test_final_runtime_pipeline.coverage" NAME="test_final_runtime_pipeline Coverage Results" MODIFIED="1776836666453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/runtime" />
     <SUITE FILE_PATH="coverage/Look_Listen_Speak$final_runtime_pipeline.coverage" NAME="final_runtime_pipeline Coverage Results" MODIFIED="1776842728324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/runtime" />

@@ -21,7 +21,7 @@ from src.runtime.timing_controller import ConfidenceTimingController
 from src.transcription.transcription_service import FasterWhisperTranscriptionService
 from src.tts.piper_tts_service import PiperTTSService
 from src.turn_prediction.inference_model import TrainedTurnModel
-from src.turn_prediction.schemas import GazeWindow
+from src.turn_prediction.schemas import GazeWindow, TurnPrediction
 from src.ui.avatar_screen import AvatarScreen
 
 def resource_path(relative_path: str) -> Path:
@@ -39,10 +39,12 @@ class FinalRuntimePipeline:
         log_path: str = "logs/runtime_events.jsonl",
         vad_device_index: int | None = None,
         tts_output_device_index: int | None = None,
+        mode: str = "gaze",
     ) -> None:
         self.logger = RuntimeLogger(log_path)
         self.monitor = RuntimeMonitor(self.logger)
         self.avatar = avatar
+        self.mode = mode
 
         self.gaze_service = GazeTrackingService(max_buffer_size=200)
         self.turn_model = TrainedTurnModel(model_path=model_path, device="cpu")
@@ -179,7 +181,15 @@ class FinalRuntimePipeline:
             window = GazeWindow(samples=samples)
 
             infer_start = time.perf_counter()
-            prediction = self.turn_model.predict(window)
+            raw_prediction = self.turn_model.predict(window)
+            if self.mode == "baseline":
+                prediction = TurnPrediction(
+                    timestamp_ns=raw_prediction.timestamp_ns,
+                    probability=0.0,
+                    is_turn=False,
+                )
+            else:
+                prediction = raw_prediction
             infer_elapsed = time.perf_counter() - infer_start
 
             self.logger.log(
@@ -200,7 +210,22 @@ class FinalRuntimePipeline:
             )
 
             self.avatar.set_mode("listening")
+
             result = self.response_gate.execute_response(prediction)
+            speech_end_time_ns = prediction.timestamp_ns
+            response_start_time_ns = time.time_ns()
+            response_latency_ms = (response_start_time_ns - speech_end_time_ns) / 1_000_000.0
+
+            self.logger.log(
+                "response_timing",
+                mode=self.mode,  # "baseline" or "gaze"
+                speech_end_time_ns=speech_end_time_ns,
+                response_start_time_ns=response_start_time_ns,
+                response_latency_ms=response_latency_ms,
+                model_confidence=prediction.probability,
+                permission_granted=result.permission_granted,
+                cancelled_by_vad=result.cancelled_by_vad,
+            )
 
             if result.permission_granted:
                 self._response_permission_event.set()
@@ -343,11 +368,12 @@ def main() -> None:
 
     avatar = AvatarScreen()
 
+
     runtime = FinalRuntimePipeline(
         model_path=str(model_path),
         tts_model_path=str(tts_model_path),
         avatar=avatar,
-        vad_device_index=1,
+        vad_device_index=None,
         tts_output_device_index=None,
     )
 
