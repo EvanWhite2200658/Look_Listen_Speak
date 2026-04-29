@@ -24,13 +24,15 @@ class QwenResponseGenerator:
         model_name: str = "Qwen/Qwen2.5-0.5B-Instruct",
         device_map: str = "auto",
         torch_dtype: str = "auto",
-        max_new_tokens: int = 16,
-        temperature: float = 0.0,
+        max_new_tokens: int = 64,
+        temperature: float = 0.3,
         top_p: float = 1.0,
-        do_sample: bool = False,
+        do_sample: bool = True,
         default_system_prompt: str = (
             "You are a helpful conversational assistant. "
             "Respond naturally and briefly in spoken dialogue style."
+            "Respond in only 1 or 2 sentences."
+            "Do not trail off. End with a complete sentence."
         ),
     ) -> None:
         self.model_name = model_name
@@ -74,6 +76,7 @@ class QwenResponseGenerator:
                 do_sample=self.do_sample,
                 temperature=self.temperature,
                 top_p=self.top_p,
+                repetition_penalty=1.05,
                 pad_token_id=self.tokenizer.eos_token_id,
             )
         elapsed = time.perf_counter() - start

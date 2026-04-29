@@ -8,6 +8,7 @@ from typing import Optional
 import sys
 
 import numpy as np
+import torch
 
 from src.audio_vad.utterance_capture import CapturedUtterance, UtteranceCapture
 from src.audio_vad.vad_service import SileroVADService
@@ -47,7 +48,7 @@ class FinalRuntimePipeline:
         self.mode = mode
 
         self.gaze_service = GazeTrackingService(max_buffer_size=200)
-        self.turn_model = TrainedTurnModel(model_path=model_path, device="cpu")
+        self.turn_model = TrainedTurnModel(model_path=model_path, device="cuda" if torch.cuda.is_available() else "cpu")
         self.timing_controller = ConfidenceTimingController()
 
         self.vad = SileroVADService(device_index=vad_device_index)
@@ -67,9 +68,9 @@ class FinalRuntimePipeline:
         self.vad.add_audio_subscriber(self._handle_audio_chunk)
 
         self.transcription = FasterWhisperTranscriptionService(
-            model_size="tiny",
-            device="cpu",
-            compute_type="int8",
+            model_size="small",
+            device="cuda",
+            compute_type="float16",
             language="en",
         )
         self.response_generator = QwenResponseGenerator()
@@ -85,7 +86,7 @@ class FinalRuntimePipeline:
         self._tts_started_at_ns: int | None = None
 
     def start(self) -> None:
-        self.logger.log("runtime_start")
+        self.logger.log("runtime_start", mode=self.mode)
         self.avatar.set_mode("listening")
 
         self.monitor.start()
@@ -222,7 +223,7 @@ class FinalRuntimePipeline:
                 speech_end_time_ns=speech_end_time_ns,
                 response_start_time_ns=response_start_time_ns,
                 response_latency_ms=response_latency_ms,
-                model_confidence=prediction.probability,
+                model_confidence=raw_prediction.probability,
                 permission_granted=result.permission_granted,
                 cancelled_by_vad=result.cancelled_by_vad,
             )
@@ -363,9 +364,25 @@ class FinalRuntimePipeline:
 
 
 def main() -> None:
-    model_path = resource_path("src/turn_prediction/artifacts/turn_prediction_runtime_compatible/best_model.pt")
-    tts_model_path = resource_path("models/tts/en_GB-alba-medium.onnx")
+    project_root = Path(__file__).resolve().parents[2]
 
+    log_path = project_root / "src" / "runtime" / "logs" / "baseline_runtime_events.jsonl"
+
+    model_path = (
+            project_root
+            / "src"
+            / "turn_prediction"
+            / "artifacts"
+            / "turn_prediction_runtime_compatible"
+            / "best_model.pt"
+    )
+
+    tts_model_path = (
+            project_root
+            / "models"
+            / "tts"
+            / "en_GB-alba-medium.onnx"
+    )
     avatar = AvatarScreen()
 
 
@@ -373,8 +390,10 @@ def main() -> None:
         model_path=str(model_path),
         tts_model_path=str(tts_model_path),
         avatar=avatar,
+        log_path=str(log_path),
         vad_device_index=None,
         tts_output_device_index=None,
+        mode="baseline"
     )
 
     runtime_thread = threading.Thread(

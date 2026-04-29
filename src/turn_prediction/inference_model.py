@@ -21,7 +21,7 @@ class TrainedTurnModel:
             self,
             model_path: str,
             threshold: float | None = None,
-            device: str = "cpu",
+            device: str = "cuda" if torch.cuda.is_available() else "cpu",
     ) -> None:
         self.device = device
         checkpoint: dict[str, Any] = torch.load(model_path, map_location=device)

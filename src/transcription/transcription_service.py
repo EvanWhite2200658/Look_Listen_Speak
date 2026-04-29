@@ -5,6 +5,7 @@ from __future__ import annotations
 import time
 from typing import Optional
 
+import torch
 import numpy as np
 from faster_whisper import WhisperModel
 
@@ -21,14 +22,14 @@ class FasterWhisperTranscriptionService:
     def __init__(
         self,
         model_size: str = "small",
-        device: str = "cpu",
+        device: str = "cuda" if torch.cuda.is_available() else "cpu",
         compute_type: str = "int8",
         language: Optional[str] = None,
         target_sample_rate: int = 16000,
     ) -> None:
         self.language = language
         self.target_sample_rate = target_sample_rate
-        self.model = WhisperModel(model_size, device=device, compute_type=compute_type)
+        self.model = WhisperModel(model_size, device=device, compute_type="float16" if device == "cuda" else "int8")
 
     def transcribe_utterance(self, utterance: CapturedUtterance) -> TranscriptionResult:
         start = time.perf_counter()

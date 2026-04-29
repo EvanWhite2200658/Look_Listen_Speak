@@ -61,7 +61,7 @@ def main() -> None:
         / "en_GB-alba-medium.onnx"
     )
 
-    log_path = Path(__file__) / "logs" / "runtime_events.jsonl"
+    log_path = Path(__file__).resolve().parent / "logs" / "runtime_events.jsonl"
 
     runtime = FinalRuntimePipeline(
         model_path=str(model_path),
