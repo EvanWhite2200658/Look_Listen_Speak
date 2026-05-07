@@ -23,6 +23,7 @@ from src.transcription.transcription_service import FasterWhisperTranscriptionSe
 from src.tts.piper_tts_service import PiperTTSService
 from src.turn_prediction.inference_model import TrainedTurnModel
 from src.turn_prediction.schemas import GazeWindow, TurnPrediction
+from src.runtime.demo_monitor import DemoMonitor, DemoMonitorState
 from src.ui.avatar_screen import AvatarScreen
 
 def resource_path(relative_path: str) -> Path:
@@ -36,16 +37,32 @@ class FinalRuntimePipeline:
         self,
         model_path: str,
         tts_model_path: str,
-        avatar: AvatarScreen,
+        avatar: AvatarScreen | None = None,
         log_path: str = "logs/runtime_events.jsonl",
         vad_device_index: int | None = None,
         tts_output_device_index: int | None = None,
         mode: str = "gaze",
+        enable_demo_monitor: bool = True,
     ) -> None:
         self.logger = RuntimeLogger(log_path)
         self.monitor = RuntimeMonitor(self.logger)
         self.avatar = avatar
         self.mode = mode
+
+        self.demo_monitor = DemoMonitor() if enable_demo_monitor else None
+        self.demo_state = DemoMonitorState(
+            confidence=0.0,
+            baseline_wait_ms=700,
+            adjusted_wait_ms=700,
+            speech_detected=False,
+            response_allowed=False,
+            system_speaking=False,
+            latest_delay_ms=None,
+            last_event="Runtime initialising...",
+        )
+        self.latest_frame = None
+        self.latest_gaze_point = None
+        self.latest_face_box = None
 
         self.gaze_service = GazeTrackingService(max_buffer_size=200)
         self.turn_model = TrainedTurnModel(model_path=model_path, device="cuda" if torch.cuda.is_available() else "cpu")
@@ -67,10 +84,13 @@ class FinalRuntimePipeline:
         )
         self.vad.add_audio_subscriber(self._handle_audio_chunk)
 
+        asr_device = "cuda" if torch.cuda.is_available() else "cpu"
+        asr_compute_type = "float16" if asr_device == "cuda" else "int8"
+
         self.transcription = FasterWhisperTranscriptionService(
             model_size="small",
-            device="cuda",
-            compute_type="float16",
+            device=asr_device,
+            compute_type=asr_compute_type,
             language="en",
         )
         self.response_generator = QwenResponseGenerator()
@@ -85,9 +105,24 @@ class FinalRuntimePipeline:
         self._tts_interrupt_grace_ms = 400
         self._tts_started_at_ns: int | None = None
 
+    def _set_avatar_mode(self, mode: str) -> None:
+        if self.avatar is not None:
+            self.avatar.set_mode(mode)
+
+    def _draw_demo_monitor(self) -> None:
+        if self.demo_monitor is None:
+            return
+
+        self.demo_monitor.draw(
+            frame=self.latest_frame,
+            state=self.demo_state,
+            gaze_point=self.latest_gaze_point,
+            face_box=self.latest_face_box,
+        )
+
     def start(self) -> None:
         self.logger.log("runtime_start", mode=self.mode)
-        self.avatar.set_mode("listening")
+        self._set_avatar_mode("listening")
 
         self.monitor.start()
         self.gaze_service.start(preview=False)
@@ -118,7 +153,10 @@ class FinalRuntimePipeline:
         self.vad.stop()
         self.gaze_service.stop()
         self.monitor.stop()
-        self.avatar.stop()
+        if self.avatar is not None:
+            self.avatar.stop()
+        if self.demo_monitor is not None:
+            self.demo_monitor.close()
 
     def _tts_interrupt_grace_active(self) -> bool:
         if self._tts_started_at_ns is None:
@@ -140,6 +178,10 @@ class FinalRuntimePipeline:
             is_speaking=is_speaking,
         )
 
+        self.demo_state.speech_detected = bool(is_speaking)
+        if is_speaking:
+            self.demo_state.last_event = "User speech detected"
+
         utterance = self.utterance_capture.pop_completed_utterance()
         if utterance is None:
             return
@@ -150,6 +192,12 @@ class FinalRuntimePipeline:
             end_time_ns=utterance.end_time_ns,
             duration_s=utterance.duration_s,
         )
+
+        self.demo_state.speech_detected = False
+        self.demo_state.last_event = (
+            f"Utterance completed | duration={utterance.duration_s:.2f}s"
+        )
+
         self.enqueue_completed_utterance(utterance)
 
     def _critical_loop(self) -> None:
@@ -168,6 +216,12 @@ class FinalRuntimePipeline:
 
             if not full_window_ready:
                 self._response_permission_event.clear()
+                self.demo_state.response_allowed = False
+                self.demo_state.last_event = (
+                    f"Collecting gaze window | {len(samples)}/"
+                    f"{self.turn_model.expected_window_size} samples"
+                )
+                self._draw_demo_monitor()
                 time.sleep(self._loop_poll_s)
                 continue
 
@@ -178,6 +232,19 @@ class FinalRuntimePipeline:
                     timestamp_ns=latest_sample.timestamp_ns,
                     feature_count=len(latest_sample.features),
                 )
+                raw_gaze = getattr(latest_sample, "raw_gaze", None)
+                filtered_gaze = getattr(latest_sample, "filtered_gaze", None)
+
+                if filtered_gaze is not None:
+                    try:
+                        self.latest_gaze_point = (int(filtered_gaze[0]), int(filtered_gaze[1]))
+                    except Exception:
+                        pass
+                elif raw_gaze is not None:
+                    try:
+                        self.latest_gaze_point = (int(raw_gaze[0]), int(raw_gaze[1]))
+                    except Exception:
+                        pass
 
             window = GazeWindow(samples=samples)
 
@@ -210,7 +277,16 @@ class FinalRuntimePipeline:
                 confidence=timing.confidence,
             )
 
-            self.avatar.set_mode("listening")
+            self.demo_state.confidence = float(timing.confidence)
+            self.demo_state.baseline_wait_ms = int(timing.baseline_wait_ms)
+            self.demo_state.adjusted_wait_ms = int(timing.adjusted_wait_ms)
+            self.demo_state.latest_delay_ms = int(timing.adjusted_wait_ms)
+            self.demo_state.last_event = (
+                f"Timing decision | confidence={timing.confidence:.2f} | "
+                f"wait={timing.adjusted_wait_ms:.0f}ms"
+            )
+
+            self._set_avatar_mode("listening")
 
             result = self.response_gate.execute_response(prediction)
             speech_end_time_ns = prediction.timestamp_ns
@@ -243,6 +319,21 @@ class FinalRuntimePipeline:
                         self.tts.stop()
                         self.logger.log("tts_interrupted_by_vad")
 
+            self.demo_state.response_allowed = bool(result.permission_granted)
+            self.demo_state.speech_detected = bool(self.vad.user_is_speaking())
+            self.demo_state.system_speaking = bool(self.tts.is_speaking)
+
+            if result.permission_granted:
+                self.demo_state.last_event = (
+                    f"Response permission granted | confidence={timing.confidence:.2f} | "
+                    f"wait={timing.adjusted_wait_ms:.0f}ms"
+                )
+            else:
+                self.demo_state.last_event = (
+                    f"Response blocked | VAD speaking={self.vad.user_is_speaking()} | "
+                    f"confidence={timing.confidence:.2f}"
+                )
+
             self.logger.log(
                 "response_gate_result",
                 cancelled_by_vad=result.cancelled_by_vad,
@@ -256,6 +347,7 @@ class FinalRuntimePipeline:
                 loop_time_s=time.perf_counter() - loop_start,
                 downstream_queue_size=self._downstream_queue.qsize(),
             )
+            self._draw_demo_monitor()
             time.sleep(self._loop_poll_s)
 
     def enqueue_completed_utterance(self, utterance: CapturedUtterance) -> None:
@@ -276,7 +368,9 @@ class FinalRuntimePipeline:
                 continue
 
             try:
-                self.avatar.set_mode("thinking")
+                self._set_avatar_mode("thinking")
+                self.demo_state.last_event = "Processing completed utterance"
+                self._draw_demo_monitor()
 
                 self.logger.log(
                     "utterance_received",
@@ -292,6 +386,9 @@ class FinalRuntimePipeline:
                     sample_count=len(utterance.audio),
                 )
 
+                self.demo_state.last_event = "Transcribing user speech"
+                self._draw_demo_monitor()
+
                 transcription_start = time.perf_counter()
                 transcription = self.transcription.transcribe_utterance(utterance)
                 self.logger.log(
@@ -302,7 +399,13 @@ class FinalRuntimePipeline:
                     processing_time_s=time.perf_counter() - transcription_start,
                 )
 
+                self.demo_state.last_event = f"Transcription complete | {transcription.text[:70]}"
+                self._draw_demo_monitor()
+
                 self.logger.log("llm_response_start")
+
+                self.demo_state.last_event = "Generating system response"
+                self._draw_demo_monitor()
 
                 response_start = time.perf_counter()
                 response = self.response_generator.generate_response(
@@ -315,6 +418,9 @@ class FinalRuntimePipeline:
                     generated_tokens=response.generated_tokens,
                     generation_time_s=time.perf_counter() - response_start,
                 )
+
+                self.demo_state.last_event = "System response generated, waiting for timing permission"
+                self._draw_demo_monitor()
 
                 self.logger.log("waiting_for_response_permission")
                 while not self._stop_event.is_set():
@@ -329,7 +435,11 @@ class FinalRuntimePipeline:
                     self.logger.log("tts_suppressed_by_vad_before_start")
                     continue
 
-                self.avatar.set_mode("speaking")
+                self._set_avatar_mode("speaking")
+                self.demo_state.system_speaking = True
+                self.demo_state.last_event = "System speaking"
+                self._draw_demo_monitor()
+
                 self._tts_started_at_ns = time.time_ns()
 
                 synthesis_start = time.perf_counter()
@@ -344,8 +454,11 @@ class FinalRuntimePipeline:
                     )
                 finally:
                     self._tts_started_at_ns = None
+                    self.demo_state.system_speaking = False
+                    self.demo_state.last_event = "System response finished"
+                    self._draw_demo_monitor()
 
-                self.avatar.set_mode("listening")
+                self._set_avatar_mode("listening")
 
             except Exception as exc:
                 import traceback
@@ -357,7 +470,10 @@ class FinalRuntimePipeline:
                     error_repr=repr(exc),
                     traceback=traceback.format_exc(),
                 )
-                self.avatar.set_mode("listening")
+                self._set_avatar_mode("listening")
+                self.demo_state.system_speaking = False
+                self.demo_state.last_event = f"Worker error | {type(exc).__name__}"
+                self._draw_demo_monitor()
 
             finally:
                 self._downstream_queue.task_done()
@@ -366,7 +482,7 @@ class FinalRuntimePipeline:
 def main() -> None:
     project_root = Path(__file__).resolve().parents[2]
 
-    log_path = project_root / "src" / "runtime" / "logs" / "baseline_runtime_events.jsonl"
+    log_path = project_root / "src" / "runtime" / "logs" / "gaze_runtime_events.jsonl"
 
     model_path = (
             project_root
@@ -393,7 +509,8 @@ def main() -> None:
         log_path=str(log_path),
         vad_device_index=None,
         tts_output_device_index=None,
-        mode="baseline"
+        mode="gaze",
+        enable_demo_monitor=True,
     )
 
     runtime_thread = threading.Thread(
@@ -401,10 +518,11 @@ def main() -> None:
         daemon=True,
         name="RuntimePipeline",
     )
-    runtime_thread.start()
 
     try:
-        avatar.start()
+        runtime_thread.start()
+    except KeyboardInterrupt:
+        print("Stopping runtime pipeline...")
     finally:
         runtime.stop()
 

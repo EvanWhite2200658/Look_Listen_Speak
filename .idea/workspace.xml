@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="final commit (ignoring ALL the bugs &lt;3)">
-      <change afterPath="$PROJECT_DIR$/src/runtime/demo_monitor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/runtime/test_demo_monitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Look_Listen_Speak.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Look_Listen_Speak.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="created demo monitor and test for it">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -545,7 +541,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776842983900</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="created demo monitor and test for it">
+      <option name="closed" value="true" />
+      <created>1778181164105</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1778181164105</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -578,7 +582,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed . imports in ONLY the relevant files necessary to run test_strongest_runtime_pipeline.py&#10;&#10;fixed incorrect model path in test_strongest_runtime_pipeline.py" />
     <MESSAGE value="retrained best_model.pt to ensure it was up to date&#10;&#10;added feature_columns to data saved with the checkpoint" />
     <MESSAGE value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
     <MESSAGE value="added print logits for model debug when running" />
@@ -603,7 +606,8 @@
     <MESSAGE value="Validated end-to-end speech pipeline from VAD to TTS&#10;Confirmed live utterance capture, ASR, LLM, and spoken output&#10;Established working baseline for interruption and UI testing&#10;Shifted remaining focus to runtime refinement and avatar display" />
     <MESSAGE value="removed debugging print statements" />
     <MESSAGE value="final commit (ignoring ALL the bugs &lt;3)" />
-    <option name="LAST_COMMIT_MESSAGE" value="final commit (ignoring ALL the bugs &lt;3)" />
+    <MESSAGE value="created demo monitor and test for it" />
+    <option name="LAST_COMMIT_MESSAGE" value="created demo monitor and test for it" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
