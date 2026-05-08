@@ -6,6 +6,7 @@ import time
 from pathlib import Path
 from typing import Optional
 import sys
+import argparse
 
 import numpy as np
 import torch
@@ -27,9 +28,25 @@ from src.runtime.demo_monitor import DemoMonitor, DemoMonitorState
 from src.ui.avatar_screen import AvatarScreen
 
 def resource_path(relative_path: str) -> Path:
+    """
+    Path for bundled resources inside PyInstaller.
+    Used for models and packaged assets.
+    """
     if hasattr(sys, "_MEIPASS"):
         return Path(sys._MEIPASS) / relative_path
-    return Path(".").resolve() / relative_path
+
+    return Path(__file__).resolve().parents[2] / relative_path
+
+
+def app_dir() -> Path:
+    """
+    Writable path next to the executable when frozen.
+    Used for logs and demo outputs.
+    """
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+
+    return Path(__file__).resolve().parents[2]
 
 
 class FinalRuntimePipeline:
@@ -59,10 +76,10 @@ class FinalRuntimePipeline:
             system_speaking=False,
             latest_delay_ms=None,
             last_event="Runtime initialising...",
+            mode=self.mode,
+            queue_size=0,
+            inference_time_ms=None,
         )
-        self.latest_frame = None
-        self.latest_gaze_point = None
-        self.latest_face_box = None
 
         self.gaze_service = GazeTrackingService(max_buffer_size=200)
         self.turn_model = TrainedTurnModel(model_path=model_path, device="cuda" if torch.cuda.is_available() else "cpu")
@@ -113,12 +130,7 @@ class FinalRuntimePipeline:
         if self.demo_monitor is None:
             return
 
-        self.demo_monitor.draw(
-            frame=self.latest_frame,
-            state=self.demo_state,
-            gaze_point=self.latest_gaze_point,
-            face_box=self.latest_face_box,
-        )
+        self.demo_monitor.draw(state=self.demo_state)
 
     def start(self) -> None:
         self.logger.log("runtime_start", mode=self.mode)
@@ -155,8 +167,10 @@ class FinalRuntimePipeline:
         self.monitor.stop()
         if self.avatar is not None:
             self.avatar.stop()
+            self.avatar = None
         if self.demo_monitor is not None:
             self.demo_monitor.close()
+            self.demo_monitor = None
 
     def _tts_interrupt_grace_active(self) -> bool:
         if self._tts_started_at_ns is None:
@@ -232,19 +246,7 @@ class FinalRuntimePipeline:
                     timestamp_ns=latest_sample.timestamp_ns,
                     feature_count=len(latest_sample.features),
                 )
-                raw_gaze = getattr(latest_sample, "raw_gaze", None)
-                filtered_gaze = getattr(latest_sample, "filtered_gaze", None)
 
-                if filtered_gaze is not None:
-                    try:
-                        self.latest_gaze_point = (int(filtered_gaze[0]), int(filtered_gaze[1]))
-                    except Exception:
-                        pass
-                elif raw_gaze is not None:
-                    try:
-                        self.latest_gaze_point = (int(raw_gaze[0]), int(raw_gaze[1]))
-                    except Exception:
-                        pass
 
             window = GazeWindow(samples=samples)
 
@@ -259,6 +261,7 @@ class FinalRuntimePipeline:
             else:
                 prediction = raw_prediction
             infer_elapsed = time.perf_counter() - infer_start
+            self.demo_state.inference_time_ms = infer_elapsed * 1000.0
 
             self.logger.log(
                 "turn_prediction",
@@ -347,6 +350,7 @@ class FinalRuntimePipeline:
                 loop_time_s=time.perf_counter() - loop_start,
                 downstream_queue_size=self._downstream_queue.qsize(),
             )
+            self.demo_state.queue_size = self._downstream_queue.qsize()
             self._draw_demo_monitor()
             time.sleep(self._loop_poll_s)
 
@@ -480,49 +484,61 @@ class FinalRuntimePipeline:
 
 
 def main() -> None:
-    project_root = Path(__file__).resolve().parents[2]
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--mode",
+        choices=["baseline", "gaze"],
+        default="gaze",
+    )
+    args = parser.parse_args()
 
-    log_path = project_root / "src" / "runtime" / "logs" / "gaze_runtime_events.jsonl"
+    mode = args.mode
+    project_root = app_dir()
+    resource_root = resource_path("")
 
-    model_path = (
-            project_root
-            / "src"
-            / "turn_prediction"
-            / "artifacts"
-            / "turn_prediction_runtime_compatible"
-            / "best_model.pt"
+    log_path = project_root / "logs" / f"{mode}_runtime_events.jsonl"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    model_path = resource_path(
+        "src/turn_prediction/artifacts/turn_prediction_runtime_compatible/best_model.pt"
     )
 
-    tts_model_path = (
-            project_root
-            / "models"
-            / "tts"
-            / "en_GB-alba-medium.onnx"
+    tts_model_path = resource_path(
+        "models/tts/en_GB-alba-medium.onnx"
     )
-    avatar = AvatarScreen()
 
+    required_paths = [
+        model_path,
+        tts_model_path,
+    ]
+    tts_config_path = Path(str(tts_model_path) + ".json")
+    required_paths.append(tts_config_path)
+
+    missing = [path for path in required_paths if not path.exists()]
+
+    if missing:
+        print("Missing required demo files:")
+        for path in missing:
+            print(f" - {path}")
+
+        input("Press Enter to exit...")
+        return
 
     runtime = FinalRuntimePipeline(
         model_path=str(model_path),
         tts_model_path=str(tts_model_path),
-        avatar=avatar,
+        avatar=None,
         log_path=str(log_path),
         vad_device_index=None,
         tts_output_device_index=None,
-        mode="gaze",
+        mode=mode,
         enable_demo_monitor=True,
     )
 
-    runtime_thread = threading.Thread(
-        target=runtime.start,
-        daemon=True,
-        name="RuntimePipeline",
-    )
-
     try:
-        runtime_thread.start()
+        runtime.start()
     except KeyboardInterrupt:
-        print("Stopping runtime pipeline...")
+        print("Stopping runtime...")
     finally:
         runtime.stop()
 
