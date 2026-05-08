@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="integrated demo monitor into runtime pipeline">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/demo_monitor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/demo_monitor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/final_runtime_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/logs/gaze_runtime_events.jsonl" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/logs/gaze_runtime_events.jsonl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/logs/runtime_events.jsonl" beforeDir="false" afterPath="$PROJECT_DIR$/src/runtime/logs/runtime_events.jsonl" afterDir="false" />
+    <list default="true" id="30cfa739-b574-4048-90dc-abcba36ce513" name="Changes" comment="gazefollower hogged camera so removed the camera view from the demo monitor&#10;distro-proofed main pipeline">
+      <change afterPath="$PROJECT_DIR$/look_listen_speak_demo.spec" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -561,7 +557,15 @@
       <option name="project" value="LOCAL" />
       <updated>1778182468790</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="gazefollower hogged camera so removed the camera view from the demo monitor&#10;distro-proofed main pipeline">
+      <option name="closed" value="true" />
+      <created>1778213971869</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1778213971869</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -594,7 +598,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="runtime_feature_bridge.py now maps eye coordinates and headpose from FaceMesh" />
     <MESSAGE value="added print logits for model debug when running" />
     <MESSAGE value="replace weak overlap mapping with stronger runtime-compatible live feature bridge" />
     <MESSAGE value="add runtime-compatible training feature space for live deployment checkpoint" />
@@ -619,7 +622,8 @@
     <MESSAGE value="final commit (ignoring ALL the bugs &lt;3)" />
     <MESSAGE value="created demo monitor and test for it" />
     <MESSAGE value="integrated demo monitor into runtime pipeline" />
-    <option name="LAST_COMMIT_MESSAGE" value="integrated demo monitor into runtime pipeline" />
+    <MESSAGE value="gazefollower hogged camera so removed the camera view from the demo monitor&#10;distro-proofed main pipeline" />
+    <option name="LAST_COMMIT_MESSAGE" value="gazefollower hogged camera so removed the camera view from the demo monitor&#10;distro-proofed main pipeline" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
